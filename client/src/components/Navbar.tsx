@@ -12,9 +12,36 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, To } from "react-router-dom";
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { GiTechnoHeart } from "react-icons/gi";
+
+const links = [
+  { linkName: "Products", path: "/products" },
+  { linkName: "Shopping cart", path: "/cart" },
+];
+
+const NavLink = ({
+  path,
+  children,
+}: {
+  path: To;
+  children: React.ReactNode;
+}) => (
+  <Link
+    as={ReactLink}
+    to={path}
+    px={2}
+    py={2}
+    rounded="md"
+    _hover={{
+      textDecoration: "none",
+      bg: useColorModeValue("gray.200", "gray.700"),
+    }}
+  >
+    {children}
+  </Link>
+);
 
 const Navbar = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -36,8 +63,61 @@ const Navbar = () => {
               <Text fontWeight="extrabold">Tech Lines</Text>
             </Flex>
           </Link>
+          <HStack as="nav" spacing={4} display={{ base: "none", md: "flex" }}>
+            {links.map((link) => (
+              <NavLink key={link.linkName} path={link.path}>
+                {link.linkName}
+              </NavLink>
+            ))}
+          </HStack>
         </HStack>
+        <Flex alignItems="center">
+          <IconButton
+            alignSelf="center"
+            aria-label="theme toggle"
+            bg="none"
+            onClick={toggleColorMode}
+            icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          />
+          <Button
+            as={ReactLink}
+            to="/login"
+            p={2}
+            fontSize={"sm"}
+            fontWeight={400}
+            variant="link"
+          >
+            Sign in
+          </Button>
+          <Button
+            as={ReactLink}
+            to="/registration"
+            p={2}
+            fontSize={"sm"}
+            fontWeight={400}
+            _hover={{ bg: "orange.400" }}
+            bg="orange.500"
+            color="white"
+            display={{ base: "none", md: "inline-flex" }}
+          >
+            Sign up
+          </Button>
+        </Flex>
       </Flex>
+      {isOpen ? (
+        <Box pb={4} display={{ md: "none" }}>
+          <Stack as="nav" spacing={4}>
+            {links.map((link) => (
+              <NavLink key={link.linkName} path={link.path}>
+                {link.linkName}
+              </NavLink>
+            ))}
+            <NavLink key="sign up" path="/registration">
+              Sign up
+            </NavLink>
+          </Stack>
+        </Box>
+      ) : null}
     </Box>
   );
 };
