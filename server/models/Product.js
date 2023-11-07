@@ -14,16 +14,23 @@ const reviewSchema = new mongoose.Schema(
 const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    image: { type: String, required: true },
+    images: { type: Array, required: true, default: [] },
     brand: { type: String, required: true },
     category: { type: String, required: true },
-    description: { type: String, required: true },
     reviews: [reviewSchema],
+    description: { type: String, required: true },
     rating: { type: Number, required: true, default: 0 },
     numberOfReviews: { type: Number, required: true, default: 0 },
     price: { type: Number, required: true, default: 0 },
     stock: { type: Number, required: true, default: 0 },
     productIsNew: { type: Boolean, default: false },
+    stripeId: {
+      type: String,
+    },
+    subtitle: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

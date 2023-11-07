@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ProductScreen from "./screens/ProductScreen";
 
+import "./axios";
+
 function App() {
   return (
     <ChakraProvider>

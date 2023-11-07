@@ -5,19 +5,21 @@ import {
   Image,
   Badge,
   useColorModeValue,
-  Icon,
+  IconButton,
   Button,
   Tooltip,
   Stack,
   Link,
   HStack,
   Text,
+  Skeleton,
 } from "@chakra-ui/react";
 import { FiShoppingCart } from "react-icons/fi";
 import { Link as ReactLink } from "react-router-dom";
 import { StarIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { IProduct } from "../types/Product";
+import { BiExpand } from "react-icons/bi";
 
 const Rating = ({
   rating,
@@ -59,89 +61,53 @@ const Rating = ({
   );
 };
 
-const ProductCard = ({
-  isNew,
-  stock,
-  image,
-  name,
-  _id,
-  price,
-  rating,
-  numReviews,
-}: IProduct) => {
+interface IProps {
+  product: IProduct;
+  loading: boolean;
+}
+
+const ProductCard = ({ product, loading }: IProps) => {
   return (
-    <Stack
-      p="2"
-      spacing={"3px"}
-      bg={useColorModeValue("white", "gray.800")}
-      minW="240px"
-      h="450px"
-      borderWidth="1px"
-      rounded="lg"
-      shadow="lg"
-      position={"relative"}
-    >
-      {isNew && (
-        <Circle
-          size="10px"
-          position="absolute"
-          top={2}
-          right={2}
-          bg="green.300"
-        />
-      )}
-      {stock <= 0 && (
-        <Circle
-          size="10px"
-          position="absolute"
-          top={2}
-          right={2}
-          bg="red.300"
-        />
-      )}
-      <Image src={image} alt={name} roundedTop="lg"></Image>
-      <Box flex="1" maxH="5" alignItems="baseline">
-        {stock <= 0 && (
-          <Badge rounded={"full"} px="2" fontSize={"0.8em"} colorScheme="red">
-            Sold out
+    <Skeleton isLoaded={!loading} _hover={{ size: "1.5" }}>
+      <Box
+        _hover={{ transform: "scale(1.1)", transitionDuration: "0.5s" }}
+        borderWidth="1px"
+        overflow="hidden"
+        p="4"
+        shadow="md"
+      >
+        <Image />
+        {product.stock < 5 ? (
+          <Badge>only {product.stock} left</Badge>
+        ) : product.stock < 1 ? (
+          <Badge colorScheme="red">Sold out</Badge>
+        ) : (
+          <Badge>In Stock</Badge>
+        )}
+        {product.productIsNew && (
+          <Badge ml="2" colorScheme="purple">
+            new
           </Badge>
         )}
-        {isNew && (
-          <Badge rounded={"full"} px="2" fontSize={"0.8em"} colorScheme="green">
-            New
-          </Badge>
-        )}
+        <Text noOfLines={1} fontSize="xl" fontWeight="semibold" mt="2">
+          {product.brand} {product.name}
+        </Text>
+        <Text noOfLines={1} fontSize="md" color="gray.600" mt="2">
+          {product.subtitle}
+        </Text>
+        <Flex justify="space-between" alignItems="center" mt="2">
+          <Badge colorScheme="cyan">{product.category}</Badge>
+          <Text fontSize="xl" fontWeight="semibold" color="cyan.600">
+            ${product.price}
+          </Text>
+          <IconButton
+            aria-label="expand"
+            icon={<BiExpand size="20" />}
+            size="sm"
+          />
+        </Flex>
       </Box>
-      <Flex mt="1" justifyContent="space-between" alignContent="center">
-        <Link as={ReactLink} to={`/product/${_id}`} pt="2" cursor="pointer">
-          <Box fontSize="2xl" fontWeight="semibold" lineHeight="tight">
-            {name}
-          </Box>
-        </Link>
-      </Flex>
-      <Flex justifyContent="space-between" alignContent="center" py="2">
-        <Rating rating={rating} numReviews={numReviews} />
-      </Flex>
-      <Flex justify="space-between">
-        <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
-          <Box as="span" color={"gray.600"} fontSize={"lg"}>
-            $
-          </Box>
-          {price.toFixed(2)}
-        </Box>
-        <Tooltip
-          label="Add to cart"
-          bg="white"
-          placement="top"
-          color="gray.800"
-          fontSize="1.2em"
-        >
-          <Button variant="ghost" display="flex" disabled={stock <= 0}>
-            <Icon as={FiShoppingCart} h={7} w={7} />
-          </Button>
-        </Tooltip>
-      </Flex>
-    </Stack>
+    </Skeleton>
   );
 };
 
