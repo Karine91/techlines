@@ -1,25 +1,21 @@
-import {
-  Flex,
-  Circle,
-  Box,
-  Image,
-  Badge,
-  useColorModeValue,
-  IconButton,
-  Button,
-  Tooltip,
-  Stack,
-  Link,
-  HStack,
-  Text,
-  Skeleton,
-} from "@chakra-ui/react";
-import { FiShoppingCart } from "react-icons/fi";
-import { Link as ReactLink } from "react-router-dom";
 import { StarIcon } from "@chakra-ui/icons";
+import {
+  Badge,
+  Box,
+  Flex,
+  HStack,
+  IconButton,
+  Image,
+  Skeleton,
+  Text,
+} from "@chakra-ui/react";
 import { useState } from "react";
-import { IProduct } from "../types/Product";
 import { BiExpand } from "react-icons/bi";
+import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { addToFavorites, removeFromFavorites } from "../redux/slices/product";
+import { AppDispatch, RootState } from "../redux/store";
+import { IProduct } from "../types/Product";
 
 const Rating = ({
   rating,
@@ -67,6 +63,14 @@ interface IProps {
 }
 
 const ProductCard = ({ product, isLoaded }: IProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { favorites } = useSelector((state: RootState) => state.products);
+
+  const inFavorites = favorites.includes(product._id);
+  const FavoriteIconComponent = inFavorites
+    ? MdOutlineFavorite
+    : MdOutlineFavoriteBorder;
+
   return (
     <Skeleton isLoaded={isLoaded} _hover={{ size: "1.5" }}>
       <Box
@@ -105,6 +109,22 @@ const ProductCard = ({ product, isLoaded }: IProps) => {
           <Text fontSize="xl" fontWeight="semibold" color="cyan.600">
             ${product.price}
           </Text>
+        </Flex>
+        <Flex justify="space-between">
+          <IconButton
+            aria-label={inFavorites ? "favorite" : "add to favorites"}
+            icon={<FavoriteIconComponent size="20" />}
+            onClick={() =>
+              dispatch(
+                inFavorites
+                  ? removeFromFavorites(product._id)
+                  : addToFavorites(product._id)
+              )
+            }
+            colorScheme="cyan"
+            size="sm"
+          />
+
           <IconButton
             aria-label="expand"
             icon={<BiExpand size="20" />}

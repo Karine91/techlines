@@ -15,6 +15,7 @@ import {
 import { Link as ReactLink, To } from "react-router-dom";
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { GiTechnoHeart } from "react-icons/gi";
+import FavoritesToggler from "./FavoritesToggler";
 
 const links = [
   { linkName: "Products", path: "/products" },
@@ -79,6 +80,7 @@ const Navbar = () => {
             onClick={toggleColorMode}
             icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           />
+          <FavoritesToggler />
           <Button
             as={ReactLink}
             to="/login"
