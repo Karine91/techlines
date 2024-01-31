@@ -63,12 +63,12 @@ const Rating = ({
 
 interface IProps {
   product: IProduct;
-  loading: boolean;
+  isLoaded: boolean;
 }
 
-const ProductCard = ({ product, loading }: IProps) => {
+const ProductCard = ({ product, isLoaded }: IProps) => {
   return (
-    <Skeleton isLoaded={!loading} _hover={{ size: "1.5" }}>
+    <Skeleton isLoaded={isLoaded} _hover={{ size: "1.5" }}>
       <Box
         _hover={{ transform: "scale(1.1)", transitionDuration: "0.5s" }}
         borderWidth="1px"
@@ -76,7 +76,12 @@ const ProductCard = ({ product, loading }: IProps) => {
         p="4"
         shadow="md"
       >
-        <Image />
+        <Image
+          src={product.images?.[0]}
+          fallbackSrc="https://via.placeholder.com/150"
+          alt={product.name}
+          height={200}
+        />
         {product.stock < 5 ? (
           <Badge>only {product.stock} left</Badge>
         ) : product.stock < 1 ? (

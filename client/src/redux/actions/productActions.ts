@@ -3,18 +3,25 @@ import { Pagination } from "../slices/product";
 import axios from "axios";
 import { IProduct } from "../../types/Product";
 
-export const getProducts = createAsyncThunk<
-  {
-    products: IProduct[];
-    pagination: Pagination;
-  },
-  { page: number; favoriteToggled: boolean }
->("products/getProducts", async ({ page, favoriteToggled }) => {
-  const {
-    data: { products, pagination },
-  } = await axios.get("/api/products");
-  return {
-    products,
-    pagination,
-  };
-});
+interface IProductsRes {
+  products: IProduct[];
+  pagination: Pagination;
+}
+
+interface IProductsInput {
+  page: number;
+  favoriteToggled: boolean;
+}
+
+export const getProducts = createAsyncThunk(
+  "products/getProducts",
+  async (arg?: IProductsInput | void) => {
+    const {
+      data: { products, pagination },
+    } = await axios.get("/api/products");
+    return {
+      products,
+      pagination,
+    } as IProductsRes;
+  }
+);

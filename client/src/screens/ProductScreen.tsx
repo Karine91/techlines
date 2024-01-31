@@ -4,18 +4,19 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import { IProduct } from "../types/Product";
+import { useSelector, useDispatch } from "react-redux";
+import { getProducts } from "../redux/actions/productActions";
+import { RootState, AppDispatch } from "../redux/store";
+import { getStatuses } from "../redux/slices/product";
 
 const ProductScreen = () => {
-  const [data, setData] = useState<IProduct[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const { products: data } = useSelector((state: RootState) => state.products);
+  const { isSuccess } = useSelector(getStatuses);
 
   useEffect(() => {
-    axios
-      .get("/api/products")
-      .then((res) => {
-        setData(res.data.products);
-      })
-      .catch((error) => console.log("Error", error));
-  }, []);
+    dispatch(getProducts());
+  }, [dispatch]);
 
   return (
     <Wrap
@@ -27,7 +28,7 @@ const ProductScreen = () => {
       {data.map((product) => (
         <WrapItem key={product._id}>
           <Center w="250px" h="550px">
-            <ProductCard product={product} loading={false} />
+            <ProductCard product={product} isLoaded={isSuccess} />
           </Center>
         </WrapItem>
       ))}
