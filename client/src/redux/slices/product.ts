@@ -3,7 +3,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
 import { IProduct } from "../../types/Product";
-import { getProducts } from "../actions/productActions";
+import { getProduct, getProducts } from "../actions/productActions";
 import { Status } from "./types";
 import { LS_FAVORITES_KEY } from "../../utils/constants";
 
@@ -20,6 +20,7 @@ interface IProductState {
   pagination: Pagination;
   favoritesToggled: boolean;
   favorites: string[];
+  reviewed: boolean;
 }
 
 export const initialState: IProductState = {
@@ -27,6 +28,7 @@ export const initialState: IProductState = {
   error: null,
   products: [],
   product: null,
+  reviewed: false,
   pagination: {} as Pagination,
   favoritesToggled: false,
   favorites: JSON.parse(localStorage.getItem(LS_FAVORITES_KEY) || "[]"),
@@ -71,7 +73,20 @@ export const productSlice = createSlice({
     builder.addCase(getProducts.rejected, (state, action) => {
       state.error =
         action.error.message ||
-        "An unexpected error has occured. Please try again later";
+        "An unexpected error has occurred. Please try again later";
+      state.status = "rejected";
+    });
+    builder.addCase(getProduct.pending, (state) => {
+      state.status = "pending";
+    });
+    builder.addCase(getProduct.fulfilled, (state, action) => {
+      state.product = action.payload;
+      state.status = "resolved";
+    });
+    builder.addCase(getProduct.rejected, (state, action) => {
+      state.error =
+        action.error.message ||
+        "An unexpected error has occurred. Please try again later";
       state.status = "rejected";
     });
   },

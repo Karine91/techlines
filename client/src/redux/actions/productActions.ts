@@ -50,3 +50,11 @@ export const toggleFavorites = createAsyncThunk<
     thunkApi.dispatch(getProducts({ page: 1 }));
   }
 });
+
+export const getProduct = createAsyncThunk(
+  "products/getProduct",
+  async (id: string) => {
+    const { data } = await axios.get(`/api/products/${id}`);
+    return data as IProduct;
+  }
+);
