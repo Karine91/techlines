@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToFavorites, removeFromFavorites } from "../redux/slices/product";
 import { AppDispatch, RootState } from "../redux/store";
 import { IProduct } from "../types/Product";
+import { Link as RouterLink } from "react-router-dom";
 
 const Rating = ({
   rating,
@@ -65,6 +66,7 @@ interface IProps {
 const ProductCard = ({ product, isLoaded }: IProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { favorites } = useSelector((state: RootState) => state.products);
+  const [isShown, setIsShown] = useState(false);
 
   const inFavorites = favorites.includes(product._id);
   const FavoriteIconComponent = inFavorites
@@ -81,7 +83,9 @@ const ProductCard = ({ product, isLoaded }: IProps) => {
         shadow="md"
       >
         <Image
-          src={product.images?.[0]}
+          onMouseEnter={() => setIsShown(true)}
+          onMouseLeave={() => setIsShown(false)}
+          src={product.images?.[isShown && product.images.length > 1 ? 1 : 0]}
           fallbackSrc="https://via.placeholder.com/150"
           alt={product.name}
           height={200}
@@ -128,6 +132,8 @@ const ProductCard = ({ product, isLoaded }: IProps) => {
           <IconButton
             aria-label="expand"
             icon={<BiExpand size="20" />}
+            as={RouterLink}
+            to={`/product/${product._id}`}
             size="sm"
           />
         </Flex>
