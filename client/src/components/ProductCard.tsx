@@ -18,46 +18,6 @@ import { AppDispatch, RootState } from "../redux/store";
 import { IProduct } from "../types/Product";
 import { Link as RouterLink } from "react-router-dom";
 
-const Rating = ({
-  rating,
-  numReviews,
-}: {
-  rating: number;
-  numReviews: number;
-}) => {
-  const [iconSize, setIconSize] = useState("14px");
-  return (
-    <Flex>
-      <HStack spacing="2px">
-        <StarIcon boxSize={iconSize} w="14px" color="orange.500" />
-        <StarIcon
-          boxSize={iconSize}
-          w="14px"
-          color={rating >= 2 ? "orange.500" : "gray.200"}
-        />
-        <StarIcon
-          boxSize={iconSize}
-          w="14px"
-          color={rating >= 3 ? "orange.500" : "gray.200"}
-        />
-        <StarIcon
-          boxSize={iconSize}
-          w="14px"
-          color={rating >= 4 ? "orange.500" : "gray.200"}
-        />
-        <StarIcon
-          boxSize={iconSize}
-          w="14px"
-          color={rating >= 5 ? "orange.500" : "gray.200"}
-        />
-      </HStack>
-      <Text fontSize="md" fontWeight="bold" ml="4px">
-        {`${numReviews} ${numReviews === 1 ? "Review" : "Reviews"}`}
-      </Text>
-    </Flex>
-  );
-};
-
 interface IProps {
   product: IProduct;
   isLoaded: boolean;

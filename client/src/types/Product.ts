@@ -7,10 +7,22 @@ export interface IProduct {
   category: string;
   price: number;
   rating: number;
-  numReviews: number;
+  numberOfReviews: number;
   productIsNew: boolean;
-  reviews?: any[];
+  reviews?: IReview[];
   stock: number;
   subtitle: string;
   stripeId: string;
+  updatedAt: string;
+}
+
+export interface IReview {
+  comment: string;
+  createdAt: string;
+  name: string;
+  rating: number;
+  title: string;
+  updatedAt: string;
+  user: string;
+  _id: string;
 }

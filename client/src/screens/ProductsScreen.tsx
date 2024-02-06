@@ -1,13 +1,4 @@
-import {
-  Center,
-  Wrap,
-  WrapItem,
-  Button,
-  AlertTitle,
-  AlertDescription,
-  Alert,
-  AlertIcon,
-} from "@chakra-ui/react";
+import { Center, Wrap, WrapItem, Button } from "@chakra-ui/react";
 
 import { useEffect } from "react";
 import ProductCard from "../components/ProductCard";
@@ -17,6 +8,7 @@ import { getProducts } from "../redux/actions/productActions";
 import { RootState, AppDispatch } from "../redux/store";
 import { getStatuses } from "../redux/slices/product";
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
+import AlertError from "../components/AlertError";
 
 const ProductScreen = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -45,15 +37,11 @@ const ProductScreen = () => {
         mx={{ base: "12", md: "20", lg: "32" }}
       >
         {error ? (
-          <Alert status="error">
-            <AlertIcon />
-            <AlertTitle>We are sorry!</AlertTitle>
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
+          <AlertError error={error} />
         ) : (
           data.map((product) => (
             <WrapItem key={product._id}>
-              <Center w="250px" h="550px">
+              <Center w="250px" h="450px">
                 <ProductCard product={product} isLoaded={isSuccess} />
               </Center>
             </WrapItem>
