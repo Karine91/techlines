@@ -1,5 +1,5 @@
 import * as React from "react";
-export type Status = "idle" | "pending" | "resolved" | "rejected";
+type Status = "idle" | "pending" | "resolved" | "rejected";
 
 function useSafeDispatch<T>(dispatch: React.Dispatch<T>) {
   const mounted = React.useRef(false);

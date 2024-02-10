@@ -1,1 +1,6 @@
-export type Status = "idle" | "pending" | "resolved" | "rejected";
+export enum Status {
+  IDLE = "idle",
+  PENDING = "pending",
+  RESOLVED = "resolved",
+  REJECTED = "rejected",
+}

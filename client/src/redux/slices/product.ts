@@ -24,7 +24,7 @@ interface IProductState {
 }
 
 export const initialState: IProductState = {
-  status: "idle",
+  status: Status.IDLE,
   error: null,
   products: [],
   product: null,
@@ -65,29 +65,29 @@ export const productSlice = createSlice({
     builder.addCase(getProducts.fulfilled, (state, action) => {
       state.products = action.payload.products;
       state.pagination = action.payload.pagination;
-      state.status = "resolved";
+      state.status = Status.RESOLVED;
     });
     builder.addCase(getProducts.pending, (state) => {
-      state.status = "pending";
+      state.status = Status.PENDING;
     });
     builder.addCase(getProducts.rejected, (state, action) => {
       state.error =
         action.error.message ||
         "An unexpected error has occurred. Please try again later";
-      state.status = "rejected";
+      state.status = Status.REJECTED;
     });
     builder.addCase(getProduct.pending, (state) => {
-      state.status = "pending";
+      state.status = Status.PENDING;
     });
     builder.addCase(getProduct.fulfilled, (state, action) => {
       state.product = action.payload;
-      state.status = "resolved";
+      state.status = Status.RESOLVED;
     });
     builder.addCase(getProduct.rejected, (state, action) => {
       state.error =
         action.error.message ||
         "An unexpected error has occurred. Please try again later";
-      state.status = "rejected";
+      state.status = Status.REJECTED;
     });
   },
 });
