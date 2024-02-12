@@ -48,7 +48,7 @@ const ProductScreen = () => {
           ))
         )}
       </Wrap>
-      {!favoritesToggled && data.length && (
+      {!favoritesToggled && data.length ? (
         <Wrap spacing="10px" justify="center" p="5">
           <Button
             colorScheme="cyan"
@@ -74,7 +74,7 @@ const ProductScreen = () => {
             <ArrowRightIcon />
           </Button>
         </Wrap>
-      )}
+      ) : null}
     </>
   );
 };

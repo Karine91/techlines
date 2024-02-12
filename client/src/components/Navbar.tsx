@@ -4,6 +4,8 @@ import {
   HStack,
   Link,
   IconButton,
+  IconButtonProps,
+  TextProps,
   Icon,
   Text,
   useDisclosure,
@@ -19,6 +21,9 @@ import ColorModeToggle from "./ColorModeToggle";
 import NavLink from "./NavLink";
 import { BsPhoneFlip } from "react-icons/bs";
 import { BiUserCheck } from "react-icons/bi";
+import { TbShoppingCart } from "react-icons/tb";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const links = [
   { name: "Products", path: "/products" },
@@ -27,19 +32,67 @@ const links = [
   { name: "Services", path: "/services" },
 ];
 
+const CartIcon = ({
+  iconProps,
+  textProps,
+}: {
+  iconProps?: Omit<IconButtonProps, "aria-label">;
+  textProps?: TextProps;
+}) => {
+  const { cartItems } = useSelector((store: RootState) => store.cart);
+  return (
+    <Box>
+      <IconButton
+        aria-label="shopping cart"
+        icon={<TbShoppingCart size="20px" />}
+        as={RouterLink}
+        to="/cart"
+        variant="ghost"
+        {...iconProps}
+      />
+      {cartItems.length ? (
+        <Text
+          fontWeight="bold"
+          fontSize="sm"
+          fontStyle="italic"
+          mt="-6"
+          {...textProps}
+        >
+          {cartItems.length}
+        </Text>
+      ) : null}
+    </Box>
+  );
+};
+
 const Navbar = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <Box bg={useColorModeValue("cyan.300", "gray.900")} px={4}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
-        <Flex display={{ base: "flex", md: "none" }} alignItems="center">
+        <Flex
+          display={{ base: "flex", md: "none" }}
+          position="relative"
+          alignItems="center"
+        >
           <IconButton
             aria-label="menu"
             bg="parent"
             size="md"
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             onClick={isOpen ? onClose : onOpen}
+          />
+          <CartIcon
+            iconProps={{
+              ml: "12px",
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+            }}
+            textProps={{
+              ml: "74px",
+            }}
           />
         </Flex>
 
@@ -60,6 +113,11 @@ const Navbar = () => {
                 {link.name}
               </NavLink>
             ))}
+            <CartIcon
+              textProps={{
+                ml: "26px",
+              }}
+            />
             <ColorModeToggle />
             <FavoritesToggler />
           </HStack>
