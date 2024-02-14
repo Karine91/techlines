@@ -39,7 +39,7 @@ const CartIcon = ({
   iconProps?: Omit<IconButtonProps, "aria-label">;
   textProps?: TextProps;
 }) => {
-  const { cartItems } = useSelector((store: RootState) => store.cart);
+  const { ids } = useSelector((store: RootState) => store.cart);
   return (
     <Box>
       <IconButton
@@ -50,7 +50,7 @@ const CartIcon = ({
         variant="ghost"
         {...iconProps}
       />
-      {cartItems.length ? (
+      {ids.length ? (
         <Text
           fontWeight="bold"
           fontSize="sm"
@@ -58,7 +58,7 @@ const CartIcon = ({
           mt="-6"
           {...textProps}
         >
-          {cartItems.length}
+          {ids.length}
         </Text>
       ) : null}
     </Box>

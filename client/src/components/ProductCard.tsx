@@ -8,6 +8,8 @@ import {
   Image,
   Skeleton,
   Text,
+  useToast,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { BiExpand } from "react-icons/bi";
@@ -17,6 +19,8 @@ import { addToFavorites, removeFromFavorites } from "../redux/slices/product";
 import { AppDispatch, RootState } from "../redux/store";
 import { IProduct } from "../types/Product";
 import { Link as RouterLink } from "react-router-dom";
+import { cartItemAdd } from "../redux/slices/cart";
+import { TbShoppingCartPlus } from "react-icons/tb";
 
 interface IProps {
   product: IProduct;
@@ -27,11 +31,26 @@ const ProductCard = ({ product, isLoaded }: IProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { favorites } = useSelector((state: RootState) => state.products);
   const [isShown, setIsShown] = useState(false);
+  const { entities } = useSelector((state: RootState) => state.cart);
+  const toast = useToast();
+
+  const cartPlusDisabled =
+    entities[product._id] && entities[product._id].qty > product.stock;
 
   const inFavorites = favorites.includes(product._id);
   const FavoriteIconComponent = inFavorites
     ? MdOutlineFavorite
     : MdOutlineFavoriteBorder;
+
+  const addToCart = () => {
+    const cartItem = entities[product._id];
+    dispatch(cartItemAdd({ qty: cartItem ? cartItem.qty + 1 : 1, product }));
+    toast({
+      description: "Item has been added.",
+      status: "success",
+      isClosable: true,
+    });
+  };
 
   return (
     <Skeleton isLoaded={isLoaded} _hover={{ size: "1.5" }}>
@@ -96,6 +115,25 @@ const ProductCard = ({ product, isLoaded }: IProps) => {
             to={`/product/${product._id}`}
             size="sm"
           />
+          <Tooltip
+            hasArrow
+            label={
+              cartPlusDisabled
+                ? "You reached the maximum quantity of the product. "
+                : product.stock <= 0
+                ? "Out of stock"
+                : ""
+            }
+          >
+            <IconButton
+              aria-label="add to the shopping cart"
+              isDisabled={product.stock <= 0 || cartPlusDisabled}
+              onClick={addToCart}
+              icon={<TbShoppingCartPlus size="20" />}
+              colorScheme="cyan"
+              size="sm"
+            />
+          </Tooltip>
         </Flex>
       </Box>
     </Skeleton>

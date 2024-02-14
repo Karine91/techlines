@@ -10,6 +10,7 @@ import {
   Text,
   Wrap,
   Image,
+  useToast,
 } from "@chakra-ui/react";
 import { BiCheckShield, BiPackage, BiSupport } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,14 +22,19 @@ import { getStatuses } from "../redux/slices/product";
 import AlertError from "../components/AlertError";
 import RatingStars from "../components/RatingStars";
 import Reviews from "../components/Reviews";
+import { cartItemAdd } from "../redux/slices/cart";
 
 const ProductScreen = () => {
-  const [amount, setAmount] = useState(1);
   const { id } = useParams();
+  const toast = useToast();
   const dispatch = useDispatch<AppDispatch>();
   const { product, error } = useSelector((state: RootState) => state.products);
   const { isLoading, isIdle } = useSelector((state: RootState) =>
     getStatuses(state)
+  );
+  const { entities } = useSelector((state: RootState) => state.cart);
+  const [amount, setAmount] = useState(
+    id && entities[id] ? entities[id].qty : 1
   );
 
   useEffect(() => {
@@ -36,6 +42,25 @@ const ProductScreen = () => {
       dispatch(getProduct(id));
     }
   }, []);
+
+  const addToCartHandle = () => {
+    if (entities[id!] && product) {
+      dispatch(cartItemAdd({ qty: amount, product }));
+      toast({
+        description: "Item has been added.",
+        status: "success",
+        isClosable: true,
+      });
+    }
+  };
+
+  const increaseAmount = () => {
+    setAmount((amount) => Math.min(amount + 1, product!.stock));
+  };
+
+  const decreaseAmount = () => {
+    setAmount((amount) => Math.max(amount - 1, 1));
+  };
 
   return (
     <Wrap spacing="30px" justify="center" minHeight="100vh">
@@ -113,16 +138,13 @@ const ProductScreen = () => {
                   borderColor="gray.200"
                   alignItems="center"
                 >
-                  <Button
-                    isDisabled={amount <= 1}
-                    onClick={() => setAmount((amount) => amount - 1)}
-                  >
+                  <Button isDisabled={amount <= 1} onClick={decreaseAmount}>
                     <MinusIcon />
                   </Button>
                   <Text mx="30px">{amount}</Text>
                   <Button
                     isDisabled={amount > product.stock}
-                    onClick={() => setAmount((amount) => amount + 1)}
+                    onClick={increaseAmount}
                   >
                     <SmallAddIcon />
                   </Button>
@@ -139,9 +161,7 @@ const ProductScreen = () => {
                   variant="outline"
                   isDisabled={product.stock === 0}
                   colorScheme="cyan"
-                  onClick={() => {
-                    console.log("add");
-                  }}
+                  onClick={addToCartHandle}
                 >
                   Add to cart
                 </Button>
