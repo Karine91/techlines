@@ -22,7 +22,7 @@ import { getStatuses } from "../redux/slices/product";
 import AlertError from "../components/AlertError";
 import RatingStars from "../components/RatingStars";
 import Reviews from "../components/Reviews";
-import { cartItemAdd } from "../redux/slices/cart";
+import { cartItemAdd, getCartItemFromProduct } from "../redux/slices/cart";
 
 const ProductScreen = () => {
   const { id } = useParams();
@@ -45,7 +45,7 @@ const ProductScreen = () => {
 
   const addToCartHandle = () => {
     if (entities[id!] && product) {
-      dispatch(cartItemAdd({ qty: amount, product }));
+      dispatch(cartItemAdd(getCartItemFromProduct(product, amount)));
       toast({
         description: "Item has been added.",
         status: "success",

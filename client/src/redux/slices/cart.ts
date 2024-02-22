@@ -7,7 +7,7 @@ import { LS_CART_ITEMS, LS_SHIPPING } from "../../utils/constants";
 import { RootState } from "../store";
 import { IProduct } from "../../types/Product";
 
-interface ICartItem
+export interface ICartItem
   extends Pick<
     IProduct,
     "name" | "stripeId" | "subtitle" | "price" | "stock" | "brand"
@@ -47,7 +47,7 @@ export const getInitialState = (): ICartState => {
   return cartAdapter.getInitialState({
     entities,
     ids,
-    shipping: JSON.parse(localStorage.getItem(LS_CART_ITEMS) || "4.99"),
+    shipping: JSON.parse(localStorage.getItem(LS_SHIPPING) || "4.99"),
     // * check if it needed globally - if not just use the derived state in component
     subtotal: calculateSubtotal(entities),
   });
@@ -60,32 +60,30 @@ const updateLocalStorage = (state: RootState["cart"]) => {
   );
 };
 
+export const getCartItemFromProduct = (product: IProduct, qty: number) => {
+  return {
+    id: product._id,
+    qty,
+    name: product.name,
+    image: product.images[0],
+    price: product.price,
+    stock: product.stock,
+    brand: product.brand,
+    stripeId: product.stripeId,
+    subtitle: product.subtitle,
+  };
+};
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState: getInitialState(),
   reducers: {
-    cartItemAdd: (
-      state,
-      {
-        payload: { qty, product },
-      }: PayloadAction<{ qty: number; product: IProduct }>
-    ) => {
-      const cartItem = {
-        id: product._id,
-        qty,
-        name: product.name,
-        image: product.images[0],
-        price: product.price,
-        stock: product.stock,
-        brand: product.brand,
-        stripeId: product.stripeId,
-        subtitle: product.subtitle,
-      };
-      const existingItem = state.entities[product._id];
+    cartItemAdd: (state, { payload: cartItem }: PayloadAction<ICartItem>) => {
+      const existingItem = state.entities[cartItem.id];
 
       if (existingItem) {
         // rewrite whole object in case product info changed as well
-        state.entities[product._id] = cartItem;
+        state.entities[cartItem.id] = cartItem;
       } else {
         cartAdapter.addOne(state, cartItem);
       }

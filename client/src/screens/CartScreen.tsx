@@ -37,6 +37,37 @@ const CartScreen = () => {
           </AlertDescription>
         </Alert>
       )}
+
+      <Box px="4" py="8" w={{ base: "95%", md: "70%", lg: "50%" }}>
+        <Stack
+          direction={{ base: "column", lg: "row" }}
+          align={{ lg: "flex-start" }}
+          spacing={{ base: "8", md: "16" }}
+        >
+          <Stack spacing={{ base: "8", md: "10" }} flex="2">
+            <Heading fontSize="2xl">Shopping Cart</Heading>
+            <Stack spacing="6">
+              {ids.map((id) => {
+                const item = entities[id];
+                return <CartItem key={id} {...item} />;
+              })}
+            </Stack>
+          </Stack>
+          <Flex direction="column" align="center" flex="1">
+            <OrderSummary />
+            <HStack mt="6" fontWeight="semibold">
+              <p>or</p>
+              <Link
+                as={RouterLink}
+                to="/products"
+                color={useColorModeValue("cyan.500", "cyan.200")}
+              >
+                Continue Shopping
+              </Link>
+            </HStack>
+          </Flex>
+        </Stack>
+      </Box>
     </Wrap>
   );
 };
