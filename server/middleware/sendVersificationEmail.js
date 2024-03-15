@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-export const sendVerificationEmail = (token, email, name, id) => {
+export const sendVerificationEmail = (token, email, name) => {
   const html = `
         <html>
             <body>
