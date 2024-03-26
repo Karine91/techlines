@@ -1,5 +1,5 @@
 import { RootState } from "./../store";
-import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Pagination, setFavorites } from "../slices/product";
 import axios from "axios";
 import { IProduct } from "../../types/Product";
