@@ -14,6 +14,16 @@ interface IRegisterInput extends ILoginInput {
   name: string;
 }
 
+interface IResetPasswordInput {
+  password: string;
+  token: string;
+}
+
+interface IResetPasswordOutput {
+  data: string;
+  status: number;
+}
+
 export const login = createAsyncThunk<IUserInfo, ILoginInput>(
   "user/login",
   async ({ email, password }) => {
@@ -39,3 +49,32 @@ export const register = createAsyncThunk<IUserInfo, IRegisterInput>(
     return data;
   }
 );
+
+export const verifyEmail = createAsyncThunk<void, string>(
+  "user/verifyEmail",
+  (token) => {
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    return axios.get("api/users/verify-email", config);
+  }
+);
+
+export const sendResetEmail = createAsyncThunk<string, string>(
+  "user/sendResetEmail",
+  async (email) => {
+    const { data } = await axios.post(`api/users/password-reset-request`, {
+      email,
+    });
+    return data;
+  }
+);
+
+export const resetPassword = createAsyncThunk<
+  IResetPasswordOutput,
+  IResetPasswordInput
+>("user/resetPassword", async ({ password, token }) => {
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+  const { data, status } = await axios.post(`api/users/password-reset`, {
+    password,
+  });
+  return { data, status };
+});

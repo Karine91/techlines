@@ -6,6 +6,7 @@ import { IProduct } from "../../types/Product";
 import { getProduct, getProducts } from "../actions/productActions";
 import { Status } from "./types";
 import { LS_FAVORITES_KEY } from "../../utils/constants";
+import { handleError } from "./util";
 
 export type Pagination = {
   currentPage: number;
@@ -70,12 +71,7 @@ export const productSlice = createSlice({
     builder.addCase(getProducts.pending, (state) => {
       state.status = Status.PENDING;
     });
-    builder.addCase(getProducts.rejected, (state, action) => {
-      state.error =
-        action.error.message ||
-        "An unexpected error has occurred. Please try again later";
-      state.status = Status.REJECTED;
-    });
+    builder.addCase(getProducts.rejected, handleError);
     builder.addCase(getProduct.pending, (state) => {
       state.status = Status.PENDING;
     });
@@ -83,12 +79,7 @@ export const productSlice = createSlice({
       state.product = action.payload;
       state.status = Status.RESOLVED;
     });
-    builder.addCase(getProduct.rejected, (state, action) => {
-      state.error =
-        action.error.message ||
-        "An unexpected error has occurred. Please try again later";
-      state.status = Status.REJECTED;
-    });
+    builder.addCase(getProduct.rejected, handleError);
   },
 });
 

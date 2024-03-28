@@ -1,7 +1,14 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { LS_USER_INFO } from "../../utils/constants";
 import { Status } from "./types";
-import { login, register } from "../actions/userActions";
+import {
+  login,
+  register,
+  verifyEmail,
+  sendResetEmail,
+  resetPassword,
+} from "../actions/userActions";
+import { handleError } from "./util";
 
 export interface IUserInfo {
   active: boolean;
@@ -12,7 +19,7 @@ interface IUserState {
   status: Status;
   userInfo: IUserInfo | null;
   serverMsg: null | string;
-  serverStatus: null;
+  serverStatus: null | number;
 }
 
 const initialState: IUserState = {
@@ -46,15 +53,10 @@ export const usersSlice = createSlice({
       state.userInfo = action.payload;
       state.status = Status.RESOLVED;
     });
-    builder.addCase(login.pending, (state, action) => {
+    builder.addCase(login.pending, (state) => {
       state.status = Status.PENDING;
     });
-    builder.addCase(login.rejected, (state, action) => {
-      state.error =
-        action.error.message ||
-        "An unexpected error has occurred. Please try again later";
-      state.status = Status.REJECTED;
-    });
+    builder.addCase(login.rejected, handleError);
     builder.addCase(register.fulfilled, (state, action) => {
       state.userInfo = action.payload;
       state.status = Status.RESOLVED;
@@ -62,11 +64,30 @@ export const usersSlice = createSlice({
     builder.addCase(register.pending, (state) => {
       state.status = Status.PENDING;
     });
-    builder.addCase(register.rejected, (state, action) => {
-      state.error =
-        action.error.message ||
-        "An unexpected error has occurred. Please try again later";
-      state.status = Status.REJECTED;
+    builder.addCase(register.rejected, handleError);
+    builder.addCase(verifyEmail.fulfilled, (state, action) => {
+      state.status = Status.RESOLVED;
+      if (state.userInfo) {
+        state.userInfo.active = true;
+        localStorage.setItem(LS_USER_INFO, JSON.stringify(state.userInfo));
+      }
+    });
+    builder.addCase(verifyEmail.pending, (state) => {
+      state.status = Status.PENDING;
+    });
+    builder.addCase(verifyEmail.rejected, handleError);
+    builder.addCase(sendResetEmail.fulfilled, (state, action) => {
+      state.status = Status.RESOLVED;
+      state.serverMsg = action.payload;
+    });
+    builder.addCase(sendResetEmail.rejected, handleError);
+    builder.addCase(sendResetEmail.pending, (state) => {
+      state.status = Status.PENDING;
+    });
+    builder.addCase(resetPassword.fulfilled, (state, action) => {
+      state.status = Status.RESOLVED;
+      state.serverMsg = action.payload.data;
+      state.serverStatus = action.payload.status;
     });
   },
 });
