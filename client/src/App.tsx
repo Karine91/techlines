@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import ProductsScreen from "./screens/ProductsScreen";
 import ProductScreen from "./screens/ProductScreen";
 import LandingScreen from "./screens/LandingScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 import "./axios";
 import CartScreen from "./screens/CartScreen";
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<LandingScreen />} />
             <Route path="/product/:id" element={<ProductScreen />} />
             <Route path="/cart" element={<CartScreen />} />
+            <Route path="/login" element={<LoginScreen />} />
           </Routes>
         </main>
         <Footer />
