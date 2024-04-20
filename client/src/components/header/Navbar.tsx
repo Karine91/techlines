@@ -1,28 +1,26 @@
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
   HStack,
-  Link,
+  Icon,
   IconButton,
   IconButtonProps,
-  TextProps,
-  Icon,
-  Text,
-  useDisclosure,
-  Button,
   Stack,
+  Text,
+  TextProps,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { GiTechnoHeart } from "react-icons/gi";
-import FavoritesToggler from "./FavoritesToggler";
-import ColorModeToggle from "./ColorModeToggle";
-import NavLink from "./NavLink";
 import { BsPhoneFlip } from "react-icons/bs";
-import { BiUserCheck } from "react-icons/bi";
 import { TbShoppingCart } from "react-icons/tb";
-import { useAppSelector } from "../redux/store";
+import { Link as RouterLink } from "react-router-dom";
+import { useAppSelector } from "../../redux/store";
+import ColorModeToggle from "../ColorModeToggle";
+import FavoritesToggler from "../FavoritesToggler";
+import NavLink from "../NavLink";
+import UnAuthedUserMenu from "./UnAuthedUserMenu";
+import UserMenu from "./UserMenu";
 
 const links = [
   { name: "Products", path: "/products" },
@@ -66,6 +64,7 @@ const CartIcon = ({
 
 const Navbar = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const userInfo = useAppSelector((state) => state.user.userInfo);
 
   return (
     <Box bg={useColorModeValue("cyan.300", "gray.900")} px={4}>
@@ -122,7 +121,7 @@ const Navbar = () => {
           </HStack>
         </HStack>
         <Flex alignItems="center">
-          <BiUserCheck />
+          {userInfo ? <UserMenu userInfo={userInfo} /> : <UnAuthedUserMenu />}
         </Flex>
       </Flex>
       <Box display="flex">

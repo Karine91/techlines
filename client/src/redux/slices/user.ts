@@ -13,6 +13,13 @@ import { RootState } from "../store";
 import { statusHelper } from "../../utils/statusHelper";
 export interface IUserInfo {
   active: boolean;
+  _id: string;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+  firstLogin: boolean;
+  createdAt: string;
+  token: string;
 }
 
 interface IUserState {
