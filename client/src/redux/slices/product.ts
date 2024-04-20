@@ -1,5 +1,5 @@
 import { statusHelper } from "./../../utils/statusHelper";
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, createSelector } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
 import { IProduct } from "../../types/Product";
@@ -92,7 +92,9 @@ export const {
 } = productSlice.actions;
 
 export const selectProducts = (state: RootState) => state.products.products;
-export const getStatuses = (state: RootState) =>
-  statusHelper(state.products.status);
+export const getStatuses = createSelector(
+  (state: RootState) => state.products.status,
+  (status) => statusHelper(status)
+);
 
 export default productSlice.reducer;

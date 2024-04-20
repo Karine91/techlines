@@ -9,12 +9,11 @@ import {
 } from "@chakra-ui/react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { useAppSelector } from "../../redux/store";
 import { getFormattedPrice } from "../../utils/getFormattedPrice";
 
 const OrderSummary = () => {
-  const { subtotal, shipping } = useSelector((state: RootState) => state.cart);
+  const { subtotal, shipping } = useAppSelector((state) => state.cart);
   return (
     <Stack
       minWidth="300px"

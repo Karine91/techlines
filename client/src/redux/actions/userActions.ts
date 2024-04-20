@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Dispatch, createAsyncThunk } from "@reduxjs/toolkit";
 import { LS_CART_ITEMS, LS_USER_INFO } from "../../utils/constants";
-import { RootState } from "../store";
+
 import { userLogout, type IUserInfo } from "../slices/user";
 import { clearCart } from "../slices/cart";
 

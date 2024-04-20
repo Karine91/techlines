@@ -22,8 +22,7 @@ import NavLink from "./NavLink";
 import { BsPhoneFlip } from "react-icons/bs";
 import { BiUserCheck } from "react-icons/bi";
 import { TbShoppingCart } from "react-icons/tb";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { useAppSelector } from "../redux/store";
 
 const links = [
   { name: "Products", path: "/products" },
@@ -39,7 +38,7 @@ const CartIcon = ({
   iconProps?: Omit<IconButtonProps, "aria-label">;
   textProps?: TextProps;
 }) => {
-  const { ids } = useSelector((store: RootState) => store.cart);
+  const { ids } = useAppSelector((store) => store.cart);
   return (
     <Box>
       <IconButton

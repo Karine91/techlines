@@ -14,13 +14,13 @@ import {
   AlertDescription,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+
 import CartItem from "../components/cart/CartItem";
 import OrderSummary from "../components/cart/OrderSummary";
-import { RootState } from "../redux/store";
+import { useAppSelector } from "../redux/store";
 
 const CartScreen = () => {
-  const { ids, entities } = useSelector((state: RootState) => state.cart);
+  const { ids, entities } = useAppSelector((state) => state.cart);
 
   const heading = `(${ids.length} Item${ids.length > 1 ? "s" : ""})`;
 

@@ -19,8 +19,15 @@ const loginUser = asyncHandler(async (req, res) => {
   if (user && (await user.matchPasswords(password))) {
     user.firstLogin = false;
     await user.save();
+    const { _id, name, email, active, isAdmin, firstLogin, createdAt } = user;
     res.json({
-      ...user.toObject(),
+      _id,
+      name,
+      email,
+      active,
+      isAdmin,
+      firstLogin,
+      createdAt,
       token: genToken(user._id),
     });
   } else {

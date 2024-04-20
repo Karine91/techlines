@@ -13,11 +13,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { BiCheckShield, BiPackage, BiSupport } from "react-icons/bi";
-import { useDispatch, useSelector } from "react-redux";
+
 import { useParams } from "react-router-dom";
 import { getProduct } from "../redux/actions/productActions";
 import { useEffect, useState } from "react";
-import { RootState, AppDispatch } from "../redux/store";
+import { useAppDispatch, useAppSelector } from "../redux/store";
 import { getStatuses } from "../redux/slices/product";
 import AlertError from "../components/AlertError";
 import RatingStars from "../components/RatingStars";
@@ -27,12 +27,10 @@ import { cartItemAdd, getCartItemFromProduct } from "../redux/slices/cart";
 const ProductScreen = () => {
   const { id } = useParams();
   const toast = useToast();
-  const dispatch = useDispatch<AppDispatch>();
-  const { product, error } = useSelector((state: RootState) => state.products);
-  const { isLoading, isIdle } = useSelector((state: RootState) =>
-    getStatuses(state)
-  );
-  const { entities } = useSelector((state: RootState) => state.cart);
+  const dispatch = useAppDispatch();
+  const { product, error } = useAppSelector((state) => state.products);
+  const { isLoading, isIdle } = useAppSelector((state) => getStatuses(state));
+  const { entities } = useAppSelector((state) => state.cart);
   const [amount, setAmount] = useState(
     id && entities[id] ? entities[id].qty : 1
   );

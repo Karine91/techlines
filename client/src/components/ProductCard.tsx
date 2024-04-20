@@ -14,9 +14,9 @@ import {
 import { useState } from "react";
 import { BiExpand } from "react-icons/bi";
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+
 import { addToFavorites, removeFromFavorites } from "../redux/slices/product";
-import { AppDispatch, RootState } from "../redux/store";
+import { useAppSelector, useAppDispatch } from "../redux/store";
 import { IProduct } from "../types/Product";
 import { Link as RouterLink } from "react-router-dom";
 import { cartItemAdd, getCartItemFromProduct } from "../redux/slices/cart";
@@ -28,10 +28,10 @@ interface IProps {
 }
 
 const ProductCard = ({ product, isLoaded }: IProps) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { favorites } = useSelector((state: RootState) => state.products);
+  const dispatch = useAppDispatch();
+  const { favorites } = useAppSelector((state) => state.products);
   const [isShown, setIsShown] = useState(false);
-  const { entities } = useSelector((state: RootState) => state.cart);
+  const { entities } = useAppSelector((state) => state.cart);
   const toast = useToast();
 
   const cartPlusDisabled =

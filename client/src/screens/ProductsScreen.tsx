@@ -3,22 +3,21 @@ import { Center, Wrap, WrapItem, Button } from "@chakra-ui/react";
 import { useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 
-import { useSelector, useDispatch } from "react-redux";
 import { getProducts } from "../redux/actions/productActions";
-import { RootState, AppDispatch } from "../redux/store";
+import { useAppDispatch, useAppSelector } from "../redux/store";
 import { getStatuses } from "../redux/slices/product";
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 import AlertError from "../components/AlertError";
 
-const ProductScreen = () => {
-  const dispatch = useDispatch<AppDispatch>();
+const ProductsScreen = () => {
+  const dispatch = useAppDispatch();
   const {
     products: data,
     pagination: { currentPage, totalPages },
     error,
     favoritesToggled,
-  } = useSelector((state: RootState) => state.products);
-  const { isSuccess } = useSelector(getStatuses);
+  } = useAppSelector((state) => state.products);
+  const { isSuccess } = useAppSelector(getStatuses);
 
   useEffect(() => {
     dispatch(getProducts({ page: 1 }));
@@ -79,4 +78,4 @@ const ProductScreen = () => {
   );
 };
 
-export default ProductScreen;
+export default ProductsScreen;

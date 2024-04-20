@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { LS_USER_INFO } from "../../utils/constants";
 import { Status } from "./types";
 import {
@@ -9,7 +9,8 @@ import {
   resetPassword,
 } from "../actions/userActions";
 import { handleError } from "./util";
-
+import { RootState } from "../store";
+import { statusHelper } from "../../utils/statusHelper";
 export interface IUserInfo {
   active: boolean;
 }
@@ -93,5 +94,10 @@ export const usersSlice = createSlice({
 });
 
 export const { userLogout, verificationEmail, stateReset } = usersSlice.actions;
+
+export const getUserStatuses = createSelector(
+  (state: RootState) => state.user.status,
+  (status) => statusHelper(status)
+);
 
 export default usersSlice.reducer;
