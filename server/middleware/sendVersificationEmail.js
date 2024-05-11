@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
 
+// TODO: sending emails not working anymore...
+
 export const sendVerificationEmail = (token, email, name) => {
   const html = `
         <html>

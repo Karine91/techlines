@@ -5,6 +5,7 @@ import ProductsScreen from "./screens/ProductsScreen";
 import ProductScreen from "./screens/ProductScreen";
 import LandingScreen from "./screens/LandingScreen";
 import LoginScreen from "./screens/LoginScreen";
+import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 
 import "./axios";
 import CartScreen from "./screens/CartScreen";
@@ -22,6 +23,7 @@ function App() {
             <Route path="/product/:id" element={<ProductScreen />} />
             <Route path="/cart" element={<CartScreen />} />
             <Route path="/login" element={<LoginScreen />} />
+            <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
           </Routes>
         </main>
         <Footer />
