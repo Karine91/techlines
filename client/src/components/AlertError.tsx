@@ -9,7 +9,14 @@ import {
 
 const AlertError = ({ error, ...props }: { error: string } & AlertProps) => {
   return (
-    <Alert status="error" {...props}>
+    <Alert
+      status="error"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      textAlign="center"
+      {...props}
+    >
       <AlertIcon />
       <AlertTitle>We are sorry!</AlertTitle>
       <AlertDescription>{error}</AlertDescription>

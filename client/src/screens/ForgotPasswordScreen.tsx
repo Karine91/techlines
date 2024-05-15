@@ -77,15 +77,7 @@ const ForgotPasswordScreen = () => {
               boxShadow={{ base: "none", md: "xl" }}
             >
               <form onSubmit={formik.handleSubmit}>
-                {error && (
-                  <AlertError
-                    error={error}
-                    flexDirection="column"
-                    alignItems="center"
-                    justifyContent="center"
-                    textAlign="center"
-                  />
-                )}
+                {error && <AlertError error={error} />}
 
                 <TextField
                   type="text"

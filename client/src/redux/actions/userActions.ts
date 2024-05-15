@@ -73,8 +73,12 @@ export const resetPassword = createAsyncThunk<
   IResetPasswordInput
 >("user/resetPassword", async ({ password, token }) => {
   const config = { headers: { Authorization: `Bearer ${token}` } };
-  const { data, status } = await axios.post(`api/users/password-reset`, {
-    password,
-  });
+  const { data, status } = await axios.post(
+    `api/users/password-reset`,
+    {
+      password,
+    },
+    config
+  );
   return { data, status };
 });
