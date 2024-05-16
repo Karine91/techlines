@@ -36,8 +36,6 @@ const validationSchema = Yup.object({
   confirmPassword: validationMessages.confirmPassword,
 });
 
-// if no token probably make sense to redirect somewhere
-
 const PasswordResetScreen = () => {
   const { token } = useParams();
   const dispatch = useAppDispatch();
