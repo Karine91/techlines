@@ -27,7 +27,6 @@ interface IUserState {
   status: Status;
   userInfo: IUserInfo | null;
   serverMsg: null | string;
-  serverStatus: null | number;
 }
 
 const initialState: IUserState = {
@@ -37,7 +36,6 @@ const initialState: IUserState = {
     localStorage.getItem(LS_USER_INFO) || "null"
   ) as IUserInfo | null,
   serverMsg: null,
-  serverStatus: null,
 };
 
 export const usersSlice = createSlice({
@@ -95,7 +93,6 @@ export const usersSlice = createSlice({
     builder.addCase(resetPassword.fulfilled, (state, action) => {
       state.status = Status.RESOLVED;
       state.serverMsg = action.payload.data;
-      state.serverStatus = action.payload.status;
     });
   },
 });
