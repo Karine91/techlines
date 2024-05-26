@@ -5,24 +5,24 @@ import {
   Button,
   Flex,
   Heading,
-  Spinner,
+  Image,
   Stack,
   Text,
   Wrap,
-  Image,
   useToast,
 } from "@chakra-ui/react";
 import { BiCheckShield, BiPackage, BiSupport } from "react-icons/bi";
 
-import { useParams } from "react-router-dom";
-import { getProduct } from "../redux/actions/productActions";
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../redux/store";
-import { getStatuses } from "../redux/slices/product";
+import { useParams } from "react-router-dom";
 import AlertError from "../components/AlertError";
+import Loader from "../components/Loader";
 import RatingStars from "../components/RatingStars";
 import Reviews from "../components/Reviews";
+import { getProduct } from "../redux/actions/productActions";
 import { cartItemAdd, getCartItemFromProduct } from "../redux/slices/cart";
+import { getStatuses } from "../redux/slices/product";
+import { useAppDispatch, useAppSelector } from "../redux/store";
 
 const ProductScreen = () => {
   const { id } = useParams();
@@ -64,14 +64,7 @@ const ProductScreen = () => {
     <Wrap spacing="30px" justify="center" minHeight="100vh">
       {(isLoading || isIdle) && (
         <Stack direction="row" spacing="4">
-          <Spinner
-            mt="20"
-            thickness="2px"
-            speed="0.65"
-            emptyColor="gray.200"
-            color="cyan.500"
-            size="xl"
-          />
+          <Loader />
         </Stack>
       )}
       {error && <AlertError error={error} />}

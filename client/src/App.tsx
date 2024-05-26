@@ -13,34 +13,40 @@ import Footer from "./components/Footer";
 import PasswordResetScreen from "./screens/PasswordResetScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
 import EmailVerificationScreen from "./screens/EmailVerificationScreen";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   return (
-    <ChakraProvider>
-      <BrowserRouter>
-        <Navbar />
-        <main>
-          <Routes>
-            <Route path="/products" element={<ProductsScreen />} />
-            <Route path="/" element={<LandingScreen />} />
-            <Route path="/product/:id" element={<ProductScreen />} />
-            <Route path="/cart" element={<CartScreen />} />
-            <Route path="/login" element={<LoginScreen />} />
-            <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
-            <Route
-              path="/password-reset/:token"
-              element={<PasswordResetScreen />}
-            />
-            <Route
-              path="/email-verify/:token"
-              element={<EmailVerificationScreen />}
-            />
-            <Route path="/registration" element={<RegistrationScreen />} />
-          </Routes>
-        </main>
-        <Footer />
-      </BrowserRouter>
-    </ChakraProvider>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}>
+      <ChakraProvider>
+        <BrowserRouter>
+          <Navbar />
+          <main>
+            <Routes>
+              <Route path="/products" element={<ProductsScreen />} />
+              <Route path="/" element={<LandingScreen />} />
+              <Route path="/product/:id" element={<ProductScreen />} />
+              <Route path="/cart" element={<CartScreen />} />
+              <Route path="/login" element={<LoginScreen />} />
+              <Route
+                path="/forgot-password"
+                element={<ForgotPasswordScreen />}
+              />
+              <Route
+                path="/password-reset/:token"
+                element={<PasswordResetScreen />}
+              />
+              <Route
+                path="/email-verify/:token"
+                element={<EmailVerificationScreen />}
+              />
+              <Route path="/registration" element={<RegistrationScreen />} />
+            </Routes>
+          </main>
+          <Footer />
+        </BrowserRouter>
+      </ChakraProvider>
+    </GoogleOAuthProvider>
   );
 }
 

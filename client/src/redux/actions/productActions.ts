@@ -1,10 +1,12 @@
-import { RootState } from "./../store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Pagination, setFavorites } from "../slices/product";
-import axios from "axios";
 import { IProduct } from "../../types/Product";
-import { LS_FAVORITES_KEY } from "../../utils/constants";
-import { setFavoritesToggled, setProducts } from "../slices/product";
+import { client } from "../../utils/client";
+import {
+  Pagination,
+  setFavoritesToggled,
+  setProducts,
+} from "../slices/product";
+import { RootState } from "./../store";
 
 interface IProductsRes {
   products: IProduct[];
@@ -22,7 +24,7 @@ export const getProducts = createAsyncThunk(
     const perPage = 10;
     const {
       data: { products, pagination },
-    } = await axios.get(`/api/products/${page}/${perPage}`);
+    } = await client(`/api/products/${page}/${perPage}`);
     return {
       products,
       pagination,
@@ -54,7 +56,7 @@ export const toggleFavorites = createAsyncThunk<
 export const getProduct = createAsyncThunk(
   "products/getProduct",
   async (id: string) => {
-    const { data } = await axios.get(`/api/products/${id}`);
+    const { data } = await client(`/api/products/${id}`);
     return data as IProduct;
   }
 );

@@ -7,6 +7,7 @@ import {
   verifyEmail,
   sendResetEmail,
   resetPassword,
+  googleLogin,
 } from "../actions/userActions";
 import { handleError } from "./util";
 import { RootState } from "../store";
@@ -20,6 +21,8 @@ export interface IUserInfo {
   firstLogin: boolean;
   createdAt: string;
   token: string;
+  googleImage?: string;
+  googleId?: string;
 }
 
 interface IUserState {
@@ -94,6 +97,14 @@ export const usersSlice = createSlice({
       state.status = Status.RESOLVED;
       state.serverMsg = action.payload.data;
     });
+    builder.addCase(googleLogin.pending, (state) => {
+      state.status = Status.PENDING;
+    });
+    builder.addCase(googleLogin.fulfilled, (state, action) => {
+      state.status = Status.RESOLVED;
+      state.userInfo = action.payload;
+    });
+    builder.addCase(googleLogin.rejected, handleError);
   },
 });
 

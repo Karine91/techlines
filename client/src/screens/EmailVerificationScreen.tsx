@@ -5,13 +5,13 @@ import {
   AlertIcon,
   AlertTitle,
   Box,
-  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import AlertError from "../components/AlertError";
+import Loader from "../components/Loader";
 import { verifyEmail } from "../redux/actions/userActions";
 import { getUserStatuses } from "../redux/slices/user";
 import { useAppDispatch, useAppSelector } from "../redux/store";
@@ -34,7 +34,7 @@ const EmailVerificationScreen = () => {
         {isLoading ? (
           <Box textAlign="center">
             <Text fontSize="3xl">We are working on verifying your email.</Text>
-            <Spinner size="xl" />
+            <Loader />
           </Box>
         ) : error ? (
           <AlertError bg="parent" error={error} />
