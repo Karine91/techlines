@@ -7,6 +7,25 @@ import { sendPasswordResetEmail } from "../middleware/sendPasswordResetEmail.js"
 
 const userRoutes = express.Router();
 
+const getUserData = ({
+  _id,
+  name,
+  email,
+  active,
+  isAdmin,
+  firstLogin,
+  createdAt,
+}) => ({
+  _id,
+  name,
+  email,
+  active,
+  isAdmin,
+  firstLogin,
+  createdAt,
+  token: genToken(user._id),
+});
+
 // TODO: redefine expiresIn
 const genToken = (id) => {
   return jwt.sign({ id }, process.env.TOKEN_SECRET, { expiresIn: "60d" });
@@ -19,17 +38,8 @@ const loginUser = asyncHandler(async (req, res) => {
   if (user && (await user.matchPasswords(password))) {
     user.firstLogin = false;
     await user.save();
-    const { _id, name, email, active, isAdmin, firstLogin, createdAt } = user;
-    res.json({
-      _id,
-      name,
-      email,
-      active,
-      isAdmin,
-      firstLogin,
-      createdAt,
-      token: genToken(user._id),
-    });
+
+    res.json(getUserData(user));
   } else {
     res.status(401).send("Invalid email or password.");
     throw new Error("User not found.");
@@ -53,11 +63,11 @@ const registerUser = asyncHandler(async (req, res) => {
       password,
     });
 
-    const newToken = genToken(user._id);
+    const userData = getUserData(user);
 
-    sendVerificationEmail(newToken, email, name);
+    sendVerificationEmail(userData.token, email, name);
 
-    res.status(201).json({ ...user.toObject(), token: newToken });
+    res.status(201).json(userData);
   } catch (error) {
     console.log(error);
     res.status(400).send("We could not register you.");
@@ -120,10 +130,47 @@ const passwordReset = asyncHandler(async (req, res) => {
   }
 });
 
+// google login
+const googleLogin = asyncHandler(async (req, res) => {
+  const { googleId, email, name, googleImage } = req.body;
+  try {
+    const user = await User.findOne({ googleId });
+    if (user) {
+      user.firstLogin = false;
+      await user.save();
+      res.json({
+        ...getUserData(user),
+        googleImage: user.googleImage,
+        googleId: user.googleId,
+      });
+    } else {
+      const newUser = await User.create({
+        name,
+        email,
+        googleId,
+        googleImage,
+      });
+
+      const userData = getUserData(newUser);
+
+      sendVerificationEmail(userData.token, email, name);
+
+      res.status(201).json({
+        ...userData,
+        googleImage: newUser.googleImage,
+        googleId: newUser.googleId,
+      });
+    }
+  } catch (error) {
+    res.status(404).send("Something went wrong, please try again later.");
+  }
+});
+
 userRoutes.route("/login").post(loginUser);
 userRoutes.route("/register").post(registerUser);
 userRoutes.route("/verify-email").get(verifyEmail);
 userRoutes.route("/password-reset-request").post(passwordResetRequest);
 userRoutes.route("/password-reset").post(passwordReset);
+userRoutes.route("/google-login").post(googleLogin);
 
 export default userRoutes;
