@@ -8,6 +8,7 @@ export const handleError = <
   action: PayloadAction<unknown, string, any, SerializedError>
 ) => {
   state.error =
+    (action.payload as string) ||
     action.error.message ||
     "An unexpected error has occurred. Please try again later";
   state.status = Status.REJECTED;

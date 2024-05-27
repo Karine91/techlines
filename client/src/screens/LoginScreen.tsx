@@ -17,7 +17,10 @@ import TextField from "../components/TextField";
 import PasswordField from "../components/auth/PasswordField";
 import { getUserStatuses } from "../redux/slices/user";
 import AlertError from "../components/AlertError";
-import { login } from "../redux/actions/userActions";
+import { login, googleLogin } from "../redux/actions/userActions";
+import { useGoogleLogin } from "@react-oauth/google";
+import { client } from "../utils/client";
+import { FcGoogle } from "react-icons/fc";
 
 const LoginSchema = Yup.object({
   email: Yup.string()
@@ -51,21 +54,8 @@ const LoginScreen = () => {
     if (userInfo) {
       if (location.state?.from) {
         navigate(location.state.from);
-      } else {
-        // navigate("/products");
       }
-      // why after navigate? we will not see it
     }
-
-    // serverMsg used for requests - resent password
-    // and send reset email
-    // if (serverMsg) {
-    //   toast({
-    //     description: `${serverMsg}`,
-    //     status: "success",
-    //     isClosable: true,
-    //   });
-    // }
   }, [userInfo, location.state, navigate]);
 
   const handleSubmit = async (values: IFormState) => {
@@ -82,6 +72,29 @@ const LoginScreen = () => {
       navigate("/products");
     }
   };
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      const {
+        data: { sub, email, name, picture },
+      } = await client("https://www.googleapis.com/oauth2/v3/userinfo", {
+        token: response.access_token,
+      });
+      const {
+        meta: { requestStatus },
+      } = await dispatch(
+        googleLogin({ email, name, googleId: sub, googleImage: picture })
+      );
+      if (requestStatus === "fulfilled") {
+        toast({
+          description: "Login successful.",
+          status: "success",
+          isClosable: true,
+        });
+        navigate("/products");
+      }
+    },
+  });
 
   return (
     <Formik
@@ -159,6 +172,16 @@ const LoginScreen = () => {
                     type="submit"
                   >
                     Sign in
+                  </Button>
+                  <Button
+                    colorScheme="cyan"
+                    size="lg"
+                    fontSize="md"
+                    isLoading={isLoading}
+                    leftIcon={<FcGoogle />}
+                    onClick={() => handleGoogleLogin()}
+                  >
+                    Sign in with Google
                   </Button>
                 </Stack>
               </form>

@@ -12,6 +12,7 @@ export function client<T = any>(
     headers: { Authorization: `Bearer ${token}`, ...customHeaders },
     method: data ? "POST" : "GET",
     url: endpoint,
+    data,
     ...customConfig,
   };
 

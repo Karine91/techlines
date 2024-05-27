@@ -23,7 +23,7 @@ const getUserData = ({
   isAdmin,
   firstLogin,
   createdAt,
-  token: genToken(user._id),
+  token: genToken(_id),
 });
 
 // TODO: redefine expiresIn
@@ -133,9 +133,10 @@ const passwordReset = asyncHandler(async (req, res) => {
 // google login
 const googleLogin = asyncHandler(async (req, res) => {
   const { googleId, email, name, googleImage } = req.body;
+
   try {
-    const user = await User.findOne({ googleId });
-    if (user) {
+    const user = await User.findOne({ email });
+    if (user && user.googleId) {
       user.firstLogin = false;
       await user.save();
       res.json({
@@ -143,6 +144,8 @@ const googleLogin = asyncHandler(async (req, res) => {
         googleImage: user.googleImage,
         googleId: user.googleId,
       });
+    } else if (user) {
+      res.status(400).send("You already have account with this email.");
     } else {
       const newUser = await User.create({
         name,
@@ -162,6 +165,7 @@ const googleLogin = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(404).send("Something went wrong, please try again later.");
   }
 });
