@@ -60,3 +60,28 @@ export const getProduct = createAsyncThunk(
     return data as IProduct;
   }
 );
+
+interface ICreateProductReviewInput {
+  comment: string;
+  productId: string;
+  rating: number;
+  title: string;
+}
+
+export const createProductReview = createAsyncThunk<
+  void,
+  ICreateProductReviewInput,
+  {
+    state: RootState;
+  }
+>(
+  "products/createReview",
+  async ({ productId, comment, rating, title }, { getState }) => {
+    const { userInfo } = getState().user;
+    await client(`api/products/reviews/${productId}`, {
+      data: { comment, rating, title },
+      method: "POST",
+      token: userInfo?.token,
+    });
+  }
+);

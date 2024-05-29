@@ -15,6 +15,11 @@ app.use(express.json());
 
 const port = process.env.PORT || 5000;
 
+// app.use((err, req, res, next) => {
+//   console.log(err.stack);
+//   res.status(500).send("Internal Server Error");
+// });
+
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 

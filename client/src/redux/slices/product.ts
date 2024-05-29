@@ -3,7 +3,11 @@ import { PayloadAction, createSlice, createSelector } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
 import { IProduct } from "../../types/Product";
-import { getProduct, getProducts } from "../actions/productActions";
+import {
+  getProduct,
+  getProducts,
+  createProductReview,
+} from "../actions/productActions";
 import { Status } from "./types";
 import { LS_FAVORITES_KEY } from "../../utils/constants";
 import { handleError } from "./util";
@@ -80,6 +84,10 @@ export const productSlice = createSlice({
       state.status = Status.RESOLVED;
     });
     builder.addCase(getProduct.rejected, handleError);
+    builder.addCase(createProductReview.fulfilled, (state) => {
+      state.reviewed = true;
+    });
+    builder.addCase(createProductReview.rejected, handleError);
   },
 });
 
