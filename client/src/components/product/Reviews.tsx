@@ -15,24 +15,28 @@ const Reviews = ({
       <Text fontSize="xl" fontWeight="bold">
         Reviews
       </Text>
-      <SimpleGrid minChildWidth={"300px"} spacingX="40px" spacingY="20px">
-        {reviews?.map((review) => (
-          <Box key={review._id}>
-            <Flex gap="2px" alignItems="center">
-              <RatingStars rating={rating} />
-              {review.title && (
-                <Text fontWeight="semibold" ml="4px">
-                  {review.title}
-                </Text>
-              )}
-            </Flex>
-            <Box py="12px">{review.comment}</Box>
-            <Text fontSize="sm" color="gray.300">
-              by {review.name}, {new Date(review.createdAt).toDateString()}
-            </Text>
-          </Box>
-        ))}
-      </SimpleGrid>
+      {reviews.length ? (
+        <SimpleGrid minChildWidth={"300px"} spacingX="40px" spacingY="20px">
+          {reviews.map((review) => (
+            <Box key={review._id}>
+              <Flex gap="2px" alignItems="center">
+                <RatingStars rating={rating} />
+                {review.title && (
+                  <Text fontWeight="semibold" ml="4px">
+                    {review.title}
+                  </Text>
+                )}
+              </Flex>
+              <Box py="12px">{review.comment}</Box>
+              <Text fontSize="sm" color="gray.300">
+                by {review.name}, {new Date(review.createdAt).toDateString()}
+              </Text>
+            </Box>
+          ))}
+        </SimpleGrid>
+      ) : (
+        <Text>No reviews.</Text>
+      )}
     </Stack>
   );
 };

@@ -21,7 +21,7 @@ interface InitState {
   error: null | string;
 }
 
-function useAsync(initialState: InitState) {
+function useAsync(initialState?: InitState) {
   const initialStateRef = React.useRef<InitState>({
     ...defaultInitialState,
     ...initialState,

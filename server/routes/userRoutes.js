@@ -36,7 +36,7 @@ const genToken = (id) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (user && (await user.matchPasswords(password))) {
+  if (user && user.password && (await user.matchPasswords(password))) {
     user.firstLogin = false;
     await user.save();
 

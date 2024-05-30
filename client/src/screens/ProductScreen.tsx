@@ -23,6 +23,7 @@ import { getProduct } from "../redux/actions/productActions";
 import { cartItemAdd, getCartItemFromProduct } from "../redux/slices/cart";
 import { getStatuses } from "../redux/slices/product";
 import { useAppDispatch, useAppSelector } from "../redux/store";
+import WriteReview from "../components/product/WriteReview";
 
 const ProductScreen = () => {
   const { id } = useParams();
@@ -31,8 +32,13 @@ const ProductScreen = () => {
   const { product, error } = useAppSelector((state) => state.products);
   const { isLoading, isIdle } = useAppSelector((state) => getStatuses(state));
   const { entities } = useAppSelector((state) => state.cart);
+  const { userInfo } = useAppSelector((state) => state.user);
   const [amount, setAmount] = useState(
     id && entities[id] ? entities[id].qty : 1
+  );
+
+  const reviewed = product?.reviews?.find(
+    (item) => item.user === userInfo?._id
   );
 
   useEffect(() => {
@@ -184,20 +190,18 @@ const ProductScreen = () => {
               flex="1"
               _dark={{ bg: "gray.900" }}
             >
-              <Image
-                mb="30px"
-                src={product.images[0]}
-                alt={product.name}
-                fallbackSrc="https://via.placeholder.com/250"
-              />
-              <Image
-                mb="30px"
-                src={product.images[1]}
-                alt={product.name}
-                fallbackSrc="https://via.placeholder.com/250"
-              />
+              {product.images.map((image, ind) => (
+                <Image
+                  mb="30px"
+                  key={ind}
+                  src={image}
+                  alt={product.name}
+                  fallbackSrc="https://via.placeholder.com/250"
+                />
+              ))}
             </Flex>
           </Stack>
+          {!reviewed && <WriteReview product={product} />}
           {product.reviews?.length ? (
             <Reviews rating={product.rating} reviews={product.reviews} />
           ) : null}

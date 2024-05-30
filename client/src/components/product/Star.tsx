@@ -3,11 +3,12 @@ import { StarIcon } from "@chakra-ui/icons";
 import { Box } from "@chakra-ui/react";
 
 const Star = ({ rating, star }: { rating: number; star: number }) => {
-  const half = rating === star - 0.5;
-  console.log(rating, star, half);
+  const part = rating > star - 1 && rating < star;
+  const partPercentage = part && Math.round((rating - (star - 1)) * 100);
+
   return (
     <Box position="relative">
-      {half && (
+      {part && (
         <StarIcon
           position="absolute"
           top="2px"
@@ -17,7 +18,7 @@ const Star = ({ rating, star }: { rating: number; star: number }) => {
           color="cyan.500"
           sx={{
             path: {
-              clipPath: "polygon(0 0, 50% 0, 50% 100%, 0% 100%)",
+              clipPath: `polygon(0 0, ${partPercentage}% 0, ${partPercentage}% 100%, 0% 100%)`,
             },
           }}
         />
