@@ -3,7 +3,7 @@ import { LS_CART_ITEMS, LS_USER_INFO } from "../../utils/constants";
 
 import { userLogout, type IUserInfo } from "../slices/user";
 import { clearCart } from "../slices/cart";
-import { client } from "../../utils/client";
+import { client } from "../../lib/api-client";
 import { AxiosError } from "axios";
 
 interface ILoginInput {

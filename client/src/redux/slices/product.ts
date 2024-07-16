@@ -87,7 +87,6 @@ export const productSlice = createSlice({
     builder.addCase(createProductReview.fulfilled, (state) => {
       state.reviewed = true;
     });
-    builder.addCase(createProductReview.rejected, handleError);
   },
 });
 

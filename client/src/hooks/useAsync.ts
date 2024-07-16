@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useAppDispatch } from "../redux/store";
+import { AsyncThunkAction, PayloadAction } from "@reduxjs/toolkit";
+import { AsyncThunkConfig } from "@reduxjs/toolkit/dist/createAsyncThunk";
 type Status = "idle" | "pending" | "resolved" | "rejected";
 
 function useSafeDispatch<T>(dispatch: React.Dispatch<T>) {
@@ -44,21 +47,17 @@ function useAsync(initialState?: InitState) {
 
   const run = React.useCallback(
     <T>(promise: Promise<T>) => {
-      if (!promise || !promise.then) {
-        throw new Error(
-          `The argument passed to useAsync().run must be a promise. Maybe a function that's passed isn't returning anything?`
-        );
-      }
       safeSetState({ status: "pending" });
-      return promise.then(
-        (data: T) => {
+      return promise
+        .then((data: T) => {
           return data;
-        },
-        (error) => {
-          setError(error);
-          return Promise.reject(error);
-        }
-      );
+        })
+        .catch((error) => {
+          setError(
+            error.message ||
+              "An unexpected error has occurred. Please try again later"
+          );
+        });
     },
     [safeSetState, setError]
   );

@@ -1,4 +1,12 @@
+import { API_URL } from "../config/constants";
 import axios, { type AxiosRequestConfig } from "axios";
+
+const apiClient = axios.create({
+  baseURL: API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 interface IConfig<T> extends AxiosRequestConfig<T> {
   token?: string;
@@ -16,5 +24,5 @@ export function client<T = any>(
     ...customConfig,
   };
 
-  return axios(config);
+  return apiClient(config);
 }

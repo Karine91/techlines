@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IProduct } from "../../types/Product";
-import { client } from "../../utils/client";
+import { client } from "../../lib/api-client";
 import {
   Pagination,
   setFavoritesToggled,

@@ -48,7 +48,6 @@ const WriteReview = ({ product }: IProps) => {
   const dispatch = useAppDispatch();
 
   const handleSubmit = (values: IFormState) => {
-    // throwing error
     run(
       dispatch(
         createProductReview({ ...values, productId: product._id })

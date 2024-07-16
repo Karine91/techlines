@@ -19,7 +19,7 @@ import { getUserStatuses } from "../redux/slices/user";
 import AlertError from "../components/AlertError";
 import { login, googleLogin } from "../redux/actions/userActions";
 import { useGoogleLogin } from "@react-oauth/google";
-import { client } from "../utils/client";
+import { client } from "../lib/api-client";
 import { FcGoogle } from "react-icons/fc";
 
 const LoginSchema = Yup.object({
