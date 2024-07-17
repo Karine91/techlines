@@ -8,12 +8,13 @@ import {
   FormErrorMessage,
   FormControl,
   Flex,
+  useToast,
 } from "@chakra-ui/react";
 import { Formik, Form, Field, FieldProps } from "formik";
 import TextField from "../TextField";
 import * as Yup from "yup";
 import { IProduct } from "../../types/Product";
-import { createProductReview } from "../../redux/actions/productActions";
+import { createProductReviewWithProductRefetch } from "../../redux/actions/productActions";
 import { useAsync } from "../../hooks/useAsync";
 import { useAppDispatch } from "../../redux/store";
 import AlertError from "../AlertError";
@@ -46,16 +47,25 @@ const WriteReview = ({ product }: IProps) => {
   const [isReviewOpen, setReviewOpen] = useState(false);
   const { run, isLoading, error } = useAsync();
   const dispatch = useAppDispatch();
+  const toast = useToast();
 
   const handleSubmit = (values: IFormState) => {
     run(
       dispatch(
-        createProductReview({ ...values, productId: product._id })
+        createProductReviewWithProductRefetch({
+          ...values,
+          productId: product._id,
+        })
       ).unwrap()
-    );
+    ).then(() => {
+      setReviewOpen(false);
+      toast({
+        description: "Product review saved.",
+        status: "success",
+        isClosable: true,
+      });
+    });
   };
-
-  console.log(error);
 
   return (
     <div>
@@ -114,7 +124,7 @@ const WriteReview = ({ product }: IProps) => {
                 w="140px"
                 colorScheme="cyan"
                 type="submit"
-                disabled={isLoading}
+                isLoading={isLoading}
               >
                 Publish review
               </Button>

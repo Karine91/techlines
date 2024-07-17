@@ -68,7 +68,7 @@ interface ICreateProductReviewInput {
   title: string;
 }
 
-export const createProductReview = createAsyncThunk<
+export const createProductReviewWithProductRefetch = createAsyncThunk<
   void,
   ICreateProductReviewInput,
   {
@@ -76,12 +76,13 @@ export const createProductReview = createAsyncThunk<
   }
 >(
   "products/createReview",
-  async ({ productId, comment, rating, title }, { getState }) => {
+  async ({ productId, comment, rating, title }, { getState, dispatch }) => {
     const { userInfo } = getState().user;
     await client(`api/products/reviews/${productId}`, {
       data: { comment, rating, title },
       method: "POST",
       token: userInfo?.token,
     });
+    dispatch(getProduct(productId));
   }
 );

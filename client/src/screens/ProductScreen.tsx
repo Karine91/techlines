@@ -45,7 +45,7 @@ const ProductScreen = () => {
     if (id) {
       dispatch(getProduct(id));
     }
-  }, []);
+  }, [id, dispatch]);
 
   const addToCartHandle = () => {
     if (entities[id!] && product) {

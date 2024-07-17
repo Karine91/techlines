@@ -6,7 +6,7 @@ import { IProduct } from "../../types/Product";
 import {
   getProduct,
   getProducts,
-  createProductReview,
+  createProductReviewWithProductRefetch,
 } from "../actions/productActions";
 import { Status } from "./types";
 import { LS_FAVORITES_KEY } from "../../utils/constants";
@@ -84,9 +84,12 @@ export const productSlice = createSlice({
       state.status = Status.RESOLVED;
     });
     builder.addCase(getProduct.rejected, handleError);
-    builder.addCase(createProductReview.fulfilled, (state) => {
-      state.reviewed = true;
-    });
+    builder.addCase(
+      createProductReviewWithProductRefetch.fulfilled,
+      (state) => {
+        state.reviewed = true;
+      }
+    );
   },
 });
 

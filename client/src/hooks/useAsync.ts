@@ -1,7 +1,5 @@
 import * as React from "react";
-import { useAppDispatch } from "../redux/store";
-import { AsyncThunkAction, PayloadAction } from "@reduxjs/toolkit";
-import { AsyncThunkConfig } from "@reduxjs/toolkit/dist/createAsyncThunk";
+
 type Status = "idle" | "pending" | "resolved" | "rejected";
 
 function useSafeDispatch<T>(dispatch: React.Dispatch<T>) {
@@ -50,6 +48,7 @@ function useAsync(initialState?: InitState) {
       safeSetState({ status: "pending" });
       return promise
         .then((data: T) => {
+          safeSetState({ status: "resolved" });
           return data;
         })
         .catch((error) => {
