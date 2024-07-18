@@ -12,11 +12,11 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { BiUserCheck } from "react-icons/bi";
-import { useAppDispatch } from "../../redux/store";
+import { useAppDispatch } from "../../../../redux/store";
 import { Link as RouterLink } from "react-router-dom";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { logout } from "../../redux/actions/userActions";
-import { IUserInfo } from "../../redux/slices/user";
+import { logout } from "../../../../redux/actions/userActions";
+import { IUserInfo } from "../../../../redux/slices/user";
 import { FcGoogle } from "react-icons/fc";
 import { googleLogout } from "@react-oauth/google";
 

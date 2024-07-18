@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack, SimpleGrid, Flex, Box, Text } from "@chakra-ui/react";
 import { IReview } from "../../types/Product";
-import RatingStars from "./RatingStars";
+import RatingStars from "./components/RatingStars";
 
 const Reviews = ({
   reviews,

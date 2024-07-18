@@ -17,13 +17,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AlertError from "../components/AlertError";
 import Loader from "../components/Loader";
-import RatingStars from "../components/product/RatingStars";
-import Reviews from "../components/product/Reviews";
+import RatingStars from "../features/product/components/RatingStars";
+import Reviews from "../features/product/Reviews";
 import { getProduct } from "../redux/actions/productActions";
 import { cartItemAdd, getCartItemFromProduct } from "../redux/slices/cart";
 import { getStatuses } from "../redux/slices/product";
 import { useAppDispatch, useAppSelector } from "../redux/store";
-import WriteReview from "../components/product/WriteReview";
+import WriteReview from "../features/product/WriteReview";
 
 const ProductScreen = () => {
   const { id } = useParams();
@@ -64,6 +64,10 @@ const ProductScreen = () => {
 
   const decreaseAmount = () => {
     setAmount((amount) => Math.max(amount - 1, 1));
+  };
+
+  const onCreateReview = () => {
+    dispatch(getProduct(id!));
   };
 
   return (
@@ -201,7 +205,9 @@ const ProductScreen = () => {
               ))}
             </Flex>
           </Stack>
-          {!reviewed && <WriteReview product={product} />}
+          {!reviewed && (
+            <WriteReview product={product} onCreateReview={onCreateReview} />
+          )}
           {product.reviews?.length ? (
             <Reviews rating={product.rating} reviews={product.reviews} />
           ) : null}

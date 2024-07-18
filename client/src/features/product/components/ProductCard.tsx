@@ -15,11 +15,17 @@ import { useState } from "react";
 import { BiExpand } from "react-icons/bi";
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 
-import { addToFavorites, removeFromFavorites } from "../redux/slices/product";
-import { useAppSelector, useAppDispatch } from "../redux/store";
-import { IProduct } from "../types/Product";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "../../../redux/slices/product";
+import { useAppSelector, useAppDispatch } from "../../../redux/store";
+import { IProduct } from "../../../types/Product";
 import { Link as RouterLink } from "react-router-dom";
-import { cartItemAdd, getCartItemFromProduct } from "../redux/slices/cart";
+import {
+  cartItemAdd,
+  getCartItemFromProduct,
+} from "../../../redux/slices/cart";
 import { TbShoppingCartPlus } from "react-icons/tb";
 
 interface IProps {

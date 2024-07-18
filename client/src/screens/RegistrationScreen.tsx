@@ -15,7 +15,7 @@ import { Link as ReactLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import AlertError from "../components/AlertError";
 import TextField from "../components/TextField";
-import PasswordField from "../components/auth/PasswordField";
+import PasswordField from "../features/auth/components/PasswordField";
 import { register } from "../redux/actions/userActions";
 import { getUserStatuses } from "../redux/slices/user";
 import { useAppDispatch, useAppSelector } from "../redux/store";

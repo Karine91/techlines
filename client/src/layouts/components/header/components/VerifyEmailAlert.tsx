@@ -8,7 +8,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
-import { useAppSelector } from "../../redux/store";
+import { useAppSelector } from "../../../../redux/store";
 
 const VerifyEmailAlert = () => {
   const { userInfo } = useAppSelector((state) => state.user);

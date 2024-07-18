@@ -14,8 +14,8 @@ import {
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
-import CartItem from "../components/cart/CartItem";
-import OrderSummary from "../components/cart/OrderSummary";
+import CartItem from "../features/cart/CartItem";
+import OrderSummary from "../features/cart/OrderSummary";
 import { useAppSelector } from "../redux/store";
 
 const CartScreen = () => {

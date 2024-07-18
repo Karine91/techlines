@@ -1,7 +1,7 @@
 import { Center, Wrap, WrapItem, Button } from "@chakra-ui/react";
 
 import { useEffect } from "react";
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../features/product/components/ProductCard";
 
 import { getProducts } from "../redux/actions/productActions";
 import { useAppDispatch, useAppSelector } from "../redux/store";

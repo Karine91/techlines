@@ -15,13 +15,13 @@ import {
 import { BsPhoneFlip } from "react-icons/bs";
 import { TbShoppingCart } from "react-icons/tb";
 import { Link as RouterLink } from "react-router-dom";
-import { useAppSelector } from "../../redux/store";
-import ColorModeToggle from "../ColorModeToggle";
-import FavoritesToggler from "../FavoritesToggler";
-import NavLink from "../NavLink";
-import UnAuthedUserMenu from "./UnAuthedUserMenu";
-import UserMenu from "./UserMenu";
-import VerifyEmailAlert from "./VerifyEmailAlert";
+import { useAppSelector } from "../../../redux/store";
+import ColorModeToggle from "./components/ColorModeToggle";
+import FavoritesToggler from "./components/FavoritesToggler";
+import NavLink from "../../../components/NavLink";
+import UnAuthedUserMenu from "./components/UnAuthedUserMenu";
+import UserMenu from "./components/UserMenu";
+import VerifyEmailAlert from "./components/VerifyEmailAlert";
 
 const links = [
   { name: "Products", path: "/products" },

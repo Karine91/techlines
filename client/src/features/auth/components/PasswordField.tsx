@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TextField, { ITextFieldProps } from "../TextField";
+import TextField, { ITextFieldProps } from "../../../components/TextField";
 import { Button } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 

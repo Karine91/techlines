@@ -15,7 +15,7 @@ import { useState } from "react";
 import { Link as ReactLink, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import AlertError from "../components/AlertError";
-import PasswordField from "../components/auth/PasswordField";
+import PasswordField from "../features/auth/components/PasswordField";
 import { resetPassword } from "../redux/actions/userActions";
 import { getUserStatuses, stateReset } from "../redux/slices/user";
 import { useAppDispatch, useAppSelector } from "../redux/store";

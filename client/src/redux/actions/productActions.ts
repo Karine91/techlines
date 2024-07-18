@@ -6,7 +6,7 @@ import {
   setFavoritesToggled,
   setProducts,
 } from "../slices/product";
-import { RootState } from "./../store";
+import { RootState } from "../store";
 
 interface IProductsRes {
   products: IProduct[];
@@ -68,7 +68,7 @@ interface ICreateProductReviewInput {
   title: string;
 }
 
-export const createProductReviewWithProductRefetch = createAsyncThunk<
+export const createProductReview = createAsyncThunk<
   void,
   ICreateProductReviewInput,
   {
@@ -76,13 +76,12 @@ export const createProductReviewWithProductRefetch = createAsyncThunk<
   }
 >(
   "products/createReview",
-  async ({ productId, comment, rating, title }, { getState, dispatch }) => {
+  async ({ productId, comment, rating, title }, { getState }) => {
     const { userInfo } = getState().user;
     await client(`api/products/reviews/${productId}`, {
       data: { comment, rating, title },
       method: "POST",
       token: userInfo?.token,
     });
-    dispatch(getProduct(productId));
   }
 );

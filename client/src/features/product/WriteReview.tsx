@@ -1,24 +1,22 @@
-import { useState } from "react";
 import {
-  Tooltip,
   Button,
-  Textarea,
-  Stack,
-  Wrap,
-  FormErrorMessage,
-  FormControl,
   Flex,
+  FormControl,
+  FormErrorMessage,
+  Stack,
+  Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { Formik, Form, Field, FieldProps } from "formik";
-import TextField from "../TextField";
+import { Field, FieldProps, Form, Formik } from "formik";
+import { useState } from "react";
 import * as Yup from "yup";
-import { IProduct } from "../../types/Product";
-import { createProductReviewWithProductRefetch } from "../../redux/actions/productActions";
+import AlertError from "../../components/AlertError";
+import TextField from "../../components/TextField";
 import { useAsync } from "../../hooks/useAsync";
+import { createProductReview } from "../../redux/actions/productActions";
 import { useAppDispatch } from "../../redux/store";
-import AlertError from "../AlertError";
-import RatingStars from "./RatingStars";
+import { IProduct } from "../../types/Product";
+import RatingStars from "./components/RatingStars";
 
 interface IFormState {
   rating: number;
@@ -28,6 +26,7 @@ interface IFormState {
 
 interface IProps {
   product: IProduct;
+  onCreateReview: () => void;
 }
 
 const validationSchema = Yup.object().shape({
@@ -43,7 +42,7 @@ const initValues: IFormState = {
   comment: "",
 };
 
-const WriteReview = ({ product }: IProps) => {
+const WriteReview = ({ product, onCreateReview }: IProps) => {
   const [isReviewOpen, setReviewOpen] = useState(false);
   const { run, isLoading, error } = useAsync();
   const dispatch = useAppDispatch();
@@ -52,13 +51,14 @@ const WriteReview = ({ product }: IProps) => {
   const handleSubmit = (values: IFormState) => {
     run(
       dispatch(
-        createProductReviewWithProductRefetch({
+        createProductReview({
           ...values,
           productId: product._id,
         })
       ).unwrap()
     ).then(() => {
       setReviewOpen(false);
+      onCreateReview();
       toast({
         description: "Product review saved.",
         status: "success",
