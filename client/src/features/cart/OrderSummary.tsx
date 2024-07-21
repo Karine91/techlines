@@ -12,7 +12,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useAppSelector } from "../../redux/store";
 import { getFormattedPrice } from "../../utils/getFormattedPrice";
 
-const OrderSummary = () => {
+const OrderSummary = ({ checkout = true }: { checkout?: boolean }) => {
   const { subtotal, shipping } = useAppSelector((state) => state.cart);
   return (
     <Stack
@@ -53,15 +53,17 @@ const OrderSummary = () => {
           </Text>
         </Flex>
       </Stack>
-      <Button
-        as={RouterLink}
-        to="/checkout"
-        colorScheme="cyan"
-        size="lg"
-        rightIcon={<FaArrowRight />}
-      >
-        Checkout
-      </Button>
+      {checkout && (
+        <Button
+          as={RouterLink}
+          to="/checkout"
+          colorScheme="cyan"
+          size="lg"
+          rightIcon={<FaArrowRight />}
+        >
+          Checkout
+        </Button>
+      )}
     </Stack>
   );
 };

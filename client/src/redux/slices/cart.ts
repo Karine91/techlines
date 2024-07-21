@@ -47,6 +47,7 @@ export const getInitialState = (): ICartState => {
   return cartAdapter.getInitialState({
     entities,
     ids,
+    // TODO: don't see any reason to store it in localSTorage
     shipping: JSON.parse(localStorage.getItem(LS_SHIPPING) || "4.99"),
     // * check if it needed globally - if not just use the derived state in component
     subtotal: calculateSubtotal(entities),

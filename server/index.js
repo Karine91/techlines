@@ -5,6 +5,7 @@ import express from "express";
 
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import stripeRoute from "./routes/stripeRoute.js";
 
 dotenv.config();
 connectToDatabase();
@@ -23,6 +24,7 @@ app.use((err, req, res, next) => {
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/checkout", stripeRoute);
 
 app.listen(port, () => {
   console.log("Server runs on port " + port);

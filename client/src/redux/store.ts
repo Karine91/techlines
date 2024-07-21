@@ -2,6 +2,7 @@ import { configureStore, createAsyncThunk } from "@reduxjs/toolkit";
 import productsReducer from "./slices/product";
 import cartReducer from "./slices/cart";
 import userReducer from "./slices/user";
+import orderReducer from "./slices/order";
 import { useSelector, useDispatch } from "react-redux";
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     products: productsReducer,
     cart: cartReducer,
     user: userReducer,
+    order: orderReducer,
   },
 });
 
