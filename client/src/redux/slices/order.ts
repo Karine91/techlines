@@ -6,7 +6,9 @@ import { getUserOrders } from "../actions/userActions";
 export const initialState = {
   orderInfo: null,
   orderId: null,
-  shippingAddress: JSON.parse(localStorage.getItem(LS_SHIPPING_ADDRESS) || ""),
+  shippingAddress: JSON.parse(
+    localStorage.getItem(LS_SHIPPING_ADDRESS) || '""'
+  ),
 };
 
 export const orderSlice = createSlice({

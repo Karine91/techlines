@@ -1,5 +1,5 @@
 import { client } from "../../lib/api-client";
-import { createAppAsyncThunk } from "../store";
+import { createAppAsyncThunk } from "../storeHooks";
 
 export const setPayment = createAppAsyncThunk<string, void>(
   "orders/setPayment",

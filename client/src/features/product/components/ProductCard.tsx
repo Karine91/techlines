@@ -19,7 +19,7 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "../../../redux/slices/product";
-import { useAppSelector, useAppDispatch } from "../../../redux/store";
+import { useAppSelector, useAppDispatch } from "../../../redux/storeHooks";
 import { IProduct } from "../../../types/Product";
 import { Link as RouterLink } from "react-router-dom";
 import {

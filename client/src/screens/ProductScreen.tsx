@@ -22,7 +22,7 @@ import Reviews from "../features/product/Reviews";
 import { getProduct } from "../redux/actions/productActions";
 import { cartItemAdd, getCartItemFromProduct } from "../redux/slices/cart";
 import { getStatuses } from "../redux/slices/product";
-import { useAppDispatch, useAppSelector } from "../redux/store";
+import { useAppDispatch, useAppSelector } from "../redux/storeHooks";
 import WriteReview from "../features/product/WriteReview";
 
 const ProductScreen = () => {

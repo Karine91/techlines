@@ -17,7 +17,7 @@ import TextField from "../../components/TextField";
 import { client } from "../../lib/api-client";
 import { googleLogin, login } from "../../redux/actions/userActions";
 import { getUserStatuses } from "../../redux/slices/user";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/storeHooks";
 import PasswordField from "./components/PasswordField";
 
 const LoginSchema = Yup.object({

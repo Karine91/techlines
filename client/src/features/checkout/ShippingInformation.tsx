@@ -14,11 +14,11 @@ import {
 import { Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { setShipping } from "../../redux/actions/cartActions";
-import { setAddress, setPayment } from "../../redux/actions/orderActions";
+// import { setShipping } from "../../redux/actions/cartActions";
+// import { setAddress, setPayment } from "../../redux/actions/orderActions";
 import TextField from "../../components/TextField";
 import { Link as ReactLink } from "react-router-dom";
-import { useAppSelector } from "../../redux/store";
+import { useAppSelector } from "../../redux/storeHooks";
 
 const shippingValidationSchema = Yup.object({
   address: Yup.string()

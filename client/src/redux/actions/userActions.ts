@@ -5,7 +5,7 @@ import { userLogout, type IUserInfo } from "../slices/user";
 import { clearCart } from "../slices/cart";
 import { client } from "../../lib/api-client";
 import { AxiosError } from "axios";
-import { createAppAsyncThunk } from "../store";
+import { createAppAsyncThunk } from "../storeHooks";
 
 interface ILoginInput {
   email: string;

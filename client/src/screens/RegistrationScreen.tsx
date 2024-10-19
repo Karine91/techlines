@@ -18,7 +18,7 @@ import TextField from "../components/TextField";
 import PasswordField from "../features/auth/components/PasswordField";
 import { register } from "../redux/actions/userActions";
 import { getUserStatuses } from "../redux/slices/user";
-import { useAppDispatch, useAppSelector } from "../redux/store";
+import { useAppDispatch, useAppSelector } from "../redux/storeHooks";
 import { validationMessages } from "../utils/validation";
 
 interface IFormState {

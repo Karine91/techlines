@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../redux/store";
+import { useAppSelector } from "../redux/storeHooks";
 import { useToast } from "@chakra-ui/react";
 
 import LoginForm from "../features/auth/LoginForm";

@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
-import { useAppSelector } from "../../redux/store";
+import { useAppSelector } from "../../redux/storeHooks";
 import { getFormattedPrice } from "../../utils/getFormattedPrice";
 
 const OrderSummary = ({ checkout = true }: { checkout?: boolean }) => {

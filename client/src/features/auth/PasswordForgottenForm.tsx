@@ -5,7 +5,7 @@ import AlertError from "../../components/AlertError";
 import TextField from "../../components/TextField";
 import { sendResetEmail } from "../../redux/actions/userActions";
 import { getUserStatuses } from "../../redux/slices/user";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/storeHooks";
 
 const ForgotPasswordSchema = Yup.object({
   email: Yup.string()

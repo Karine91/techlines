@@ -14,7 +14,7 @@ import AlertError from "../../components/AlertError";
 import TextField from "../../components/TextField";
 import { useAsync } from "../../hooks/useAsync";
 import { createProductReview } from "../../redux/actions/productActions";
-import { useAppDispatch } from "../../redux/store";
+import { useAppDispatch } from "../../redux/storeHooks";
 import { IProduct } from "../../types/Product";
 import RatingStars from "./components/RatingStars";
 

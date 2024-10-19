@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { sendVerificationEmail } from "../middleware/sendVersificationEmail.js";
 import { sendPasswordResetEmail } from "../middleware/sendPasswordResetEmail.js";
 import { protectRoute } from "../middleware/auth.js";
-import Order from "./models/Order.js";
+import Order from "../models/Order.js";
 
 const userRoutes = express.Router();
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { IconButton } from "@chakra-ui/react";
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
-import { useAppSelector, useAppDispatch } from "../../../../redux/store";
+import { useAppSelector, useAppDispatch } from "../../../../redux/storeHooks";
 import { toggleFavorites } from "../../../../redux/actions/productActions";
 
 import { useLocation } from "react-router-dom";

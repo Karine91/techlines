@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import ProductCard from "../features/product/components/ProductCard";
 
 import { getProducts } from "../redux/actions/productActions";
-import { useAppDispatch, useAppSelector } from "../redux/store";
+import { useAppDispatch, useAppSelector } from "../redux/storeHooks";
 import { getStatuses } from "../redux/slices/product";
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 import AlertError from "../components/AlertError";

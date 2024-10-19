@@ -12,6 +12,7 @@ import {
 import { handleError } from "./util";
 import { RootState } from "../store";
 import { statusHelper } from "../../utils/statusHelper";
+
 export interface IUserInfo {
   active: boolean;
   _id: string;

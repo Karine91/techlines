@@ -16,7 +16,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 import CartItem from "../features/cart/CartItem";
 import OrderSummary from "../features/cart/OrderSummary";
-import { useAppSelector } from "../redux/store";
+import { useAppSelector } from "../redux/storeHooks";
 
 const CartScreen = () => {
   const { ids, entities } = useAppSelector((state) => state.cart);

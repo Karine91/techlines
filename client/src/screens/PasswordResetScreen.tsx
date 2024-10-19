@@ -18,7 +18,7 @@ import AlertError from "../components/AlertError";
 import PasswordField from "../features/auth/components/PasswordField";
 import { resetPassword } from "../redux/actions/userActions";
 import { getUserStatuses, stateReset } from "../redux/slices/user";
-import { useAppDispatch, useAppSelector } from "../redux/store";
+import { useAppDispatch, useAppSelector } from "../redux/storeHooks";
 import { validationMessages } from "../utils/validation";
 
 interface IFormState {

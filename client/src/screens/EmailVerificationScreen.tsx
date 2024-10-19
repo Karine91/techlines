@@ -14,7 +14,7 @@ import AlertError from "../components/AlertError";
 import Loader from "../components/Loader";
 import { verifyEmail } from "../redux/actions/userActions";
 import { getUserStatuses } from "../redux/slices/user";
-import { useAppDispatch, useAppSelector } from "../redux/store";
+import { useAppDispatch, useAppSelector } from "../redux/storeHooks";
 
 const EmailVerificationScreen = () => {
   const { token } = useParams();
